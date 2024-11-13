@@ -1,0 +1,49 @@
+[/]
+default='9e22830e-26ee-4fa7-bb61-0c5bcaf4a384'
+list=['b1dcc9dd-5262-4d8d-a863-c897e6d979b9', '9e22830e-26ee-4fa7-bb61-0c5bcaf4a384', '623e1dc5-31d5-4c26-9234-230dec5e5f3b', '14740718-d9d3-4c3b-852d-f82ab2a9c541', 'a2bf3421-72f7-46ec-a96c-1296714463a8', 'aa0e094d-a409-40b1-a3f1-e66369b557bf']
+
+[:14740718-d9d3-4c3b-852d-f82ab2a9c541]
+background-color='rgb(255,219,239)'
+background-transparency-percent=8
+default-size-columns=144
+default-size-rows=32
+foreground-color='rgb(37,2,57)'
+palette=['rgb(0,60,76)', 'rgb(198,15,52)', 'rgb(195,43,140)', 'rgb(121,93,8)', 'rgb(38,139,210)', 'rgb(164,33,96)', 'rgb(6,97,90)', 'rgb(238,232,213)', 'rgb(8,29,34)', 'rgb(203,75,22)', 'rgb(229,98,84)', 'rgb(255,20,153)', 'rgb(131,45,198)', 'rgb(108,113,196)', 'rgb(89,203,156)', 'rgb(253,246,227)']
+use-theme-colors=false
+visible-name='Light Sweet'
+
+[:623e1dc5-31d5-4c26-9234-230dec5e5f3b]
+default-size-columns=144
+default-size-rows=32
+palette=['rgb(23,20,33)', 'rgb(192,28,40)', 'rgb(38,162,105)', 'rgb(162,115,76)', 'rgb(18,72,139)', 'rgb(163,71,186)', 'rgb(42,161,179)', 'rgb(208,207,204)', 'rgb(94,92,100)', 'rgb(246,97,81)', 'rgb(51,209,122)', 'rgb(233,173,12)', 'rgb(42,123,222)', 'rgb(192,97,203)', 'rgb(51,199,222)', 'rgb(255,255,255)']
+use-theme-colors=false
+visible-name='Light'
+
+[:9e22830e-26ee-4fa7-bb61-0c5bcaf4a384]
+background-color='rgb(57,9,40)'
+background-transparency-percent=8
+default-size-columns=144
+default-size-rows=32
+foreground-color='rgb(208,207,204)'
+palette=['rgb(7,54,66)', 'rgb(252,25,71)', 'rgb(252,51,179)', 'rgb(181,137,0)', 'rgb(38,139,210)', 'rgb(211,54,130)', 'rgb(42,161,152)', 'rgb(238,232,213)', 'rgb(0,43,54)', 'rgb(203,75,22)', 'rgb(229,98,84)', 'rgb(255,20,153)', 'rgb(210,178,235)', 'rgb(108,113,196)', 'rgb(111,251,193)', 'rgb(253,246,227)']
+use-theme-colors=false
+visible-name='Dark Sweet'
+
+[:a2bf3421-72f7-46ec-a96c-1296714463a8]
+background-transparency-percent=100
+default-size-columns=144
+default-size-rows=32
+visible-name='Dark Transparent'
+
+[:aa0e094d-a409-40b1-a3f1-e66369b557bf]
+background-transparency-percent=100
+default-size-columns=144
+default-size-rows=32
+palette=['rgb(23,20,33)', 'rgb(192,28,40)', 'rgb(38,162,105)', 'rgb(162,115,76)', 'rgb(18,72,139)', 'rgb(163,71,186)', 'rgb(42,161,179)', 'rgb(208,207,204)', 'rgb(94,92,100)', 'rgb(246,97,81)', 'rgb(51,209,122)', 'rgb(233,173,12)', 'rgb(42,123,222)', 'rgb(192,97,203)', 'rgb(51,199,222)', 'rgb(255,255,255)']
+use-theme-colors=false
+visible-name='Light Transparent'
+
+[:b1dcc9dd-5262-4d8d-a863-c897e6d979b9]
+default-size-columns=144
+default-size-rows=32
+visible-name='Dark'

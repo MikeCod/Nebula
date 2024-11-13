@@ -1,0 +1,9 @@
+[Desktop Entry]
+Name=WhatsApp
+Exec=whatsdesk %U
+Terminal=false
+Type=Application
+Icon=/snap/whatsdesk/current/meta/gui/icon.png
+StartupWMClass=whatsdesk
+Comment=unofficial whatsapp client for linux 
+Categories=Network;Chat;InstantMessaging;
