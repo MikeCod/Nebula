@@ -15,18 +15,42 @@ This project aims to setup my actual environment as I needed to setup many times
 
 ## Install
 
-### Complete environment
+### Full install
 ```sh
 chmod +x import.sh
-./import.sh
+./import.sh --setup
 ```
 
-### ZSH only
+### Update
 ```sh
-chmod +x import-zsh.sh
-./import-zsh.sh
+chmod +x import.sh
+./import.sh --update
 ```
-*It actually update VIM and Gnome profiles too*
+
+### Help
+
+```
+Usage: ./import.sh { --setup | --setup-no-gui }
+
+Full install:
+    --setup          Setup environment
+    --setup-no-gui   Setup environment without graphical UI
+
+Update:
+  -a  --all          Import everything
+  -u  --update       alias for -a
+
+Unique:
+  -c  --code         Setup VSCode
+  -d  --docker       Setup rootless Docker
+  -g  --git          Setup git
+  -n  --node         Setup Node.js
+  -o  --office       Setup LibreOffice
+  -s  --soft         Setup entertainment and convenient softwares
+                       (Spotify, Telegram, WhatsDesk, Discord, Gnome settings)
+
+Note: Setup means install and configure
+```
 
 
 ## Update
@@ -88,6 +112,7 @@ update-zsh
 | `nclean` | Remove all `node_modules` folders |
 | `npi` or `npmi` | `npm install` |
 | `npu` or `npmu` | `npm uninstall` |
+| `npr` or `npmr` | `npm run` |
 | `ntree` | List project files |
 | `start` | `npm start` |
 
@@ -145,7 +170,9 @@ update-zsh
 | `ll` | `ls -l` |
 | `lss [<path>] [<depth>]` | List files by size descending order |
 | `lookup` | Search a text within all files including subfolders of the current directory |
-| `ilookup` | Same as `lookup` but case insensitive |
+| `ilookup` | `lookup` case insensitive |
+| `wlookup` | `lookup` for a whole match (faster) |
+| `iwlookup` | `wlookup` case insensitive |
 | `asearch <text>` | Search a text within available packages |
 | `msearch <text>` | Search a text within manual. Looking on the first page |
 | `search <text>` | Search a text within manual and available packages |
@@ -205,10 +232,9 @@ update-zsh
 | `F1` | Volume mute |
 | `F2` | Volume down |
 | `F3` | Volume up |
-| `F9` | Full screen capture |
-| `shift` + `F9` | Screen capture |
-| `ctrl` + `F9` | Window Screen capture |
-| `shift` + `ctrl` + `F9` | Screen recorder |
+| `shift` + `Print` | Screen capture |
+| `ctrl` + `Print` | Window Screen capture |
+| `shift` + `ctrl` + `Print` | Screen recorder |
 
 #### Mini keyboard layout shortcuts
 
