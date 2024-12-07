@@ -467,10 +467,10 @@ asearch() {
 
 # Search within manual and packages
 search() {
-	printf "\033[1;4mManual:\033[0m\n"
+	printf "\e[1;4mManual:\e[0m\n"
 	msearch $@
 
-	printf "\n\033[1;4mPackages:\033[0m\n"
+	printf "\n\e[1;4mPackages:\e[0m\n"
 	asearch $@
 }
 
@@ -528,7 +528,7 @@ update-zsh() {
 }
 
 help-recovery() {
-	printf "\033[4mUsual recovery tools:\033[0m
+	printf "\e[4mUsual recovery tools:\e[0m
   cryptsetup    Encrypt Drive to LUKS
   curl          Download
   dd            Copy source to destination
@@ -543,7 +543,7 @@ help-recovery() {
   mount <source> <mountpoint> Mount partition
   umount <mountpoint>         Unmount partition
 
-\033[4mUsual files:\033[0m
+\e[4mUsual files:\e[0m
   /dev/zero     Null byte
   /dev/random   Random byte"
 }
@@ -552,7 +552,7 @@ help() {
 		search $1
 		return 0
 	fi
-	printf "\033[4mCommon useful tools:\033[0m
+	printf "\e[4mCommon useful tools:\e[0m
   alias             Display aliases
   asearch           Search in packages
   curl              Download
@@ -575,23 +575,43 @@ help() {
   help              Show this help,
                     Or search in manual (first page) if an argument is given
 
-\033[4mUsual files:\033[0m
+\e[4mUsual files:\e[0m
   /dev/zero     Null byte
   /dev/random   Random byte"
 }
 git-convention() {
-	printf "\033[4mGit conventional types:\033[0m
-  \033[36;1mfeat\033[0m     Features         A new feature
-  \033[36;1mfix\033[0m      Bug Fixes        A bug Fix
-  \033[36;1mdocs\033[0m     Documentation    Documentation only changes
-  \033[36;1mstyle\033[0m    Styles           Changes that do not affect the meaning of the code (white-space, formatting, etc)
-  \033[36;1mrefactor\033[0m Code Refactoring A code change that neither fixes a bug nor adds a feature
-  \033[36;1mperf\033[0m     Performance Improvements A code change that improves performance
-  \033[36;1mtest\033[0m     Tests            Adding missing tests or correcting existing tests
-  \033[36;1mbuild\033[0m    Builds           Changes that affect the build system or external dependencies (example scopes: gulp, npm)
-  \033[36;1mci\033[0m       Continuous Integrations Changes to our CI configuration files and scripts (example scopes: Travis, Circle)
-  \033[36;1mchore\033[0m    Chores           Other changes that don't modify src or test files
-  \033[36;1mrevert\033[0m   Reverts          Reverts a previous commit
+	printf "\e[4mGit conventional types:\e[0m
+	
+  \e[36;1mbuild\e[0m     Changes that affect the build system or external dependencies (e.g scopes: gulp, npm)
+  \e[36;1mchore\e[0m     Other changes that don't modify src or test files
+   └─ \e[36;1mmeta\e[0m      Metadata changes (e.g version)
+  
+  \e[36;1mdocs\e[0m      Documentation only changes
+  \e[36;1mfeat\e[0m      New feature
+  \e[36;1mfix\e[0m       Bug Fixes
+  \e[36;1mops\e[0m       Operational components (e.g infrastructure, deployment, etc.)
+   ├─ \e[36;1mci\e[0m        Changes to our CI configuration files and scripts (e.g scopes: Travis, Circle)
+   └─ \e[36;1mrevert\e[0m    Reverts a previous commit
+  
+  \e[36;1mrefactor\e[0m  A code change that neither fixes a bug nor adds a feature
+   └─ \e[36;1mperf\e[0m      Performance Improvements
+  
+  \e[36;1mstyle\e[0m     Changes that do not affect the meaning of the code (white-space, formatting, etc)
+  \e[36;1mtest\e[0m      Adding missing tests or correcting existing tests
+
+
+ \e[1m<type>(<scope>): <short summary>\e[0m
+  │      │         └── \e[4mSummary\e[0m in present tense. Not capitalized. No dot at the end.
+  │      └── \e[4mScope:\e[0m animations|app.json|common ...
+  └── \e[4mType:\e[0m build|ci|docs|feat ...
+
+
+\e[4mThe scope provides additional contextual information (Optional)\e[0m
+  - Allowed Scopes depends on the specific project
+  - Don't use issue identifiers as scopes
+
+\e[4mBreaking Changes Indicator (Optional)\e[0m
+   Indicated by \e[1m!\e[0m before the \e[1m:\e[0m in the subject line e.g. feat(api)!: remove status endpoint
 "
 }
 
@@ -623,4 +643,6 @@ export DOCKER_HOST=unix:///run/user/1000/docker.sock
 export NVM_DIR="$HOME/.nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
 [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
+export PRINT='
+n'
 export ENHANCED_PATH='/home/night/Documents/project/EnhancedTerminal'

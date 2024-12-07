@@ -52,7 +52,6 @@ Unique:
 Note: Setup means install and configure
 ```
 
-
 ## Update
 Once installed, check whenever you want an update :
 ```sh
@@ -83,6 +82,13 @@ update-zsh
   - Snap package manager
   - Hex editor
   - Vim
+
+## Frequently Asked Question
+
+### Git convention
+![Git convention](asset/git-convention.png)
+### Search within manual and/or packages
+![Search within manual and/or packages](asset/search.png)
 
 ## LibreOffice Template
 
@@ -200,7 +206,7 @@ update-zsh
 | `keccak256sum` | [Keccak-256](https://keccak.team/keccak.html) |
 | `sha3-256sum` | [SHA3-256](https://keccak.team/keccak.html) |
 | `shake256sum` | [SHAKE-256](https://nvlpubs.nist.gov/nistpubs/FIPS/NIST.FIPS.202.pdf) |
-| `ssh-fingerprints [<algorithm>] [<hash>]` | Show SSH fingerprints |
+| `ssh-fingerprints [<signature>] [<hash>]` | Show SSH fingerprints |
 
 #### Help
 | Command | Description |
