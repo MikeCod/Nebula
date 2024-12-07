@@ -416,11 +416,11 @@ shell-colour() {
 	echo
 
 	printf "\e[4mExtended\e[0m\n"
-	echo "  Foreground         38"
-	echo "  Background         48"
+	echo "  Foreground           38"
+	echo "  Background           48"
 	echo
-	echo "  8-bits (256-color) 5  [0 - 6]"
-	echo "  24-bits (RGB)      2  [0 - 255]"
+	echo "  8-bits  (256-color)  5   [0 - 6]"
+	echo "  24-bits (RGB)        2   [0 - 255]"
 	echo
 	printf "\e[4m4-bits  (256-color)\e[0m "
 	echo '\\e[38;\e[1m<16 + (RED*36) + (GREEN*6) + BLUE>\e[0mm'
