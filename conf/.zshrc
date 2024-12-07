@@ -358,57 +358,77 @@ alias gschanges='sh -c '\''git diff --name-only HEAD ${1:-HEAD^} | egrep "^(\w*(
 
 shell-colour() {
 	printf "\e[4mStyle\e[0m\n"
-	printf "NONE/RESET       0   \e[1mLorem Ipsum\e[0m\n"
-	printf "BOLD             1   \e[1mLorem Ipsum\e[0m\n"
-	printf "DIM              2   \e[2mLorem Ipsum\e[0m\n"
-	printf "ITALIC           3   \e[3mLorem Ipsum\e[0m\n"
-	printf "UNDERLINE        4   \e[4mLorem Ipsum\e[0m\n"
-	printf "BLINK            5   \e[5mLorem Ipsum\e[0m\n"
-	printf "REVERSE          7   \e[7mLorem Ipsum\e[0m\n"
-	printf "HIDE             8   \e[8mLorem Ipsum\e[0m\n"
-	printf "STRIKE           9   \e[9mLorem Ipsum\e[0m\n"
-	printf "DOUBLE_UNDERLINE 21  \e[21mLorem Ipsum\e[0m\n"
+	printf "  NONE/RESET       0    \e[1mLorem Ipsum\e[0m\n"
+	printf "  BOLD             1    \e[1mLorem Ipsum\e[0m\n"
+	printf "  DIM              2    \e[2mLorem Ipsum\e[0m\n"
+	printf "  ITALIC           3    \e[3mLorem Ipsum\e[0m\n"
+	printf "  UNDERLINE        4    \e[4mLorem Ipsum\e[0m\n"
+	printf "  BLINK            5    \e[5mLorem Ipsum\e[0m\n"
+	printf "  REVERSE          7    \e[7mLorem Ipsum\e[0m\n"
+	printf "  HIDE             8    \e[8mLorem Ipsum\e[0m\n"
+	printf "  STRIKE           9    \e[9mLorem Ipsum\e[0m\n"
+	printf "  DOUBLE_UNDERLINE 21   \e[21mLorem Ipsum\e[0m\n"
 	echo
 
 	printf "\e[4mForeground\e[0m\n"
-	printf "DEFAULT          39   \e[39mLorem Ipsum\e[0m\n"
-	printf "BLACK            30   \e[30mLorem Ipsum\e[0m\n"
-	printf "RED              31   \e[31mLorem Ipsum\e[0m\n"
-	printf "GREEN            32   \e[32mLorem Ipsum\e[0m\n"
-	printf "YELLOW           33   \e[33mLorem Ipsum\e[0m\n"
-	printf "BLUE             34   \e[34mLorem Ipsum\e[0m\n"
-	printf "MAGENTA          35   \e[35mLorem Ipsum\e[0m\n"
-	printf "CYAN             36   \e[36mLorem Ipsum\e[0m\n"
-	printf "WHITE            37   \e[37mLorem Ipsum\e[0m\n"
+	printf "  DEFAULT          39   \e[39mLorem Ipsum\e[0m\n"
+	printf "  BLACK            30   \e[30mLorem Ipsum\e[0m\n"
+	printf "  RED              31   \e[31mLorem Ipsum\e[0m\n"
+	printf "  GREEN            32   \e[32mLorem Ipsum\e[0m\n"
+	printf "  YELLOW           33   \e[33mLorem Ipsum\e[0m\n"
+	printf "  BLUE             34   \e[34mLorem Ipsum\e[0m\n"
+	printf "  MAGENTA          35   \e[35mLorem Ipsum\e[0m\n"
+	printf "  CYAN             36   \e[36mLorem Ipsum\e[0m\n"
+	printf "  WHITE            37   \e[37mLorem Ipsum\e[0m\n"
 	echo
-	printf "DARK_GRAY        90   \e[90mLorem Ipsum\e[0m\n"
-	printf "LIGHT_RED        91   \e[91mLorem Ipsum\e[0m\n"
-	printf "LIGHT_GREEN      92   \e[92mLorem Ipsum\e[0m\n"
-	printf "LIGHT_YELLOW     93   \e[93mLorem Ipsum\e[0m\n"
-	printf "LIGHT_BLUE       94   \e[94mLorem Ipsum\e[0m\n"
-	printf "LIGHT_MAGENTA    95   \e[95mLorem Ipsum\e[0m\n"
-	printf "LIGHT_CYAN       96   \e[96mLorem Ipsum\e[0m\n"
+	printf "  DARK_GRAY        90   \e[90mLorem Ipsum\e[0m\n"
+	printf "  LIGHT_RED        91   \e[91mLorem Ipsum\e[0m\n"
+	printf "  LIGHT_GREEN      92   \e[92mLorem Ipsum\e[0m\n"
+	printf "  LIGHT_YELLOW     93   \e[93mLorem Ipsum\e[0m\n"
+	printf "  LIGHT_BLUE       94   \e[94mLorem Ipsum\e[0m\n"
+	printf "  LIGHT_MAGENTA    95   \e[95mLorem Ipsum\e[0m\n"
+	printf "  LIGHT_CYAN       96   \e[96mLorem Ipsum\e[0m\n"
 	echo
 
 	printf "\e[4mBackground\e[0m\n"
-	printf "DEFAULT          49   \e[49mLorem Ipsum\e[0m\n"
-	printf "BLACK            40   \e[40mLorem Ipsum\e[0m\n"
-	printf "RED              41   \e[41mLorem Ipsum\e[0m\n"
-	printf "GREEN            42   \e[42mLorem Ipsum\e[0m\n"
-	printf "YELLOW           43   \e[43mLorem Ipsum\e[0m\n"
-	printf "BLUE             44   \e[44mLorem Ipsum\e[0m\n"
-	printf "MAGENTA          45   \e[45mLorem Ipsum\e[0m\n"
-	printf "CYAN             46   \e[46mLorem Ipsum\e[0m\n"
-	printf "WHITE            47   \e[47mLorem Ipsum\e[0m\n"
+	printf "  DEFAULT          49   \e[49mLorem Ipsum\e[0m\n"
+	printf "  BLACK            40   \e[40mLorem Ipsum\e[0m\n"
+	printf "  RED              41   \e[41mLorem Ipsum\e[0m\n"
+	printf "  GREEN            42   \e[42mLorem Ipsum\e[0m\n"
+	printf "  YELLOW           43   \e[43mLorem Ipsum\e[0m\n"
+	printf "  BLUE             44   \e[44mLorem Ipsum\e[0m\n"
+	printf "  MAGENTA          45   \e[45mLorem Ipsum\e[0m\n"
+	printf "  CYAN             46   \e[46mLorem Ipsum\e[0m\n"
+	printf "  WHITE            47   \e[47mLorem Ipsum\e[0m\n"
 	echo
-	printf "DARK_GRAY        100  \e[100mLorem Ipsum\e[0m\n"
-	printf "LIGHT_RED        101  \e[101mLorem Ipsum\e[0m\n"
-	printf "LIGHT_GREEN      102  \e[102mLorem Ipsum\e[0m\n"
-	printf "LIGHT_YELLOW     103  \e[103mLorem Ipsum\e[0m\n"
-	printf "LIGHT_BLUE       104  \e[104mLorem Ipsum\e[0m\n"
-	printf "LIGHT_MAGENTA    105  \e[105mLorem Ipsum\e[0m\n"
-	printf "LIGHT_CYAN       106  \e[106mLorem Ipsum\e[0m\n"
+	printf "  DARK_GRAY        100  \e[100mLorem Ipsum\e[0m\n"
+	printf "  LIGHT_RED        101  \e[101mLorem Ipsum\e[0m\n"
+	printf "  LIGHT_GREEN      102  \e[102mLorem Ipsum\e[0m\n"
+	printf "  LIGHT_YELLOW     103  \e[103mLorem Ipsum\e[0m\n"
+	printf "  LIGHT_BLUE       104  \e[104mLorem Ipsum\e[0m\n"
+	printf "  LIGHT_MAGENTA    105  \e[105mLorem Ipsum\e[0m\n"
+	printf "  LIGHT_CYAN       106  \e[106mLorem Ipsum\e[0m\n"
+	echo
+	echo
+	printf "  \e[4m4-bits (Legacy/Default)\e[0m  "
+	echo '\e[1m\\e[1;31m\e[0m'
+	echo
+	echo
+
+	printf "\e[4mExtended\e[0m\n"
+	echo "  Foreground         38"
+	echo "  Background         48"
+	echo
+	echo "  8-bits (256-color) 5  [0 - 6]"
+	echo "  24-bits (RGB)      2  [0 - 255]"
+	echo
+	printf "\e[4m4-bits  (256-color)\e[0m "
+	echo '\\e[38;\e[1m<16 + (RED*36) + (GREEN*6) + BLUE>\e[0mm'
+	printf "\e[4m24-bits (RGB)\e[0m       "
+	printf '\\e[38;\e[1m<RED>\e[0m;\e[1m<GREEN>\e[0m;\e[1m<BLUE>\e[0mm'
+	echo
 }
+alias shc='shell-colour'
 mvsed() {
 	regex="$1"
 	path="${2:-.}"
@@ -614,6 +634,7 @@ git-convention() {
    Indicated by \e[1m!\e[0m before the \e[1m:\e[0m in the subject line e.g. feat(api)!: remove status endpoint
 "
 }
+alias gitc='git-convention'
 
 repair() {
 	case "$1" in
