@@ -83,7 +83,7 @@ update-zsh
   - Hex editor
   - Vim
 
-## Frequently Asked Question
+## Preview
 
 ### Git convention
 ![Git convention](asset/git-convention.png)
