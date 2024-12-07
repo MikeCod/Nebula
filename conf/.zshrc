@@ -103,9 +103,9 @@ configure_prompt() {
     # Skull emoji for root terminal
     case "$PROMPT_ALTERNATIVE" in
         twoline)
-			PROMPT=$'%F{%(#.red.green)}${debian_chroot:+$debian_chroot─}${VIRTUAL_ENV:+$(basename $VIRTUAL_ENV)─}%n%F{reset}'$prompt_symbol$'%F{%(#.orange.red)}%m %B%F{reset}%(6~.%-1~/…/%4~.%5~)%b%F{%(#.blue.green)}\n$(parse_git_branch)%B%(#.%F{red}#.%F{blue}$)%b%F{reset} '
+		PROMPT=$'%F{%(#.red.green)}${debian_chroot:+$debian_chroot─}${VIRTUAL_ENV:+$(basename $VIRTUAL_ENV)─}%n%F{reset}'$prompt_symbol$'%F{%(#.orange.red)}%m %B%F{reset}%(6~.%-1~/…/%4~.%5~)%b%F{%(#.blue.green)}\n$(parse_git_branch)%B%(#.%F{red}#.%F{blue}$)%b%F{reset} '
             # Right-side prompt with exit codes and background processes
-            # RPROMPT=$'%(?.. %? %F{red}%B⨯%b%F{reset})%(1j. %j %F{yellow}%B⚙%b%F{reset}.)'
+            #RPROMPT=$'%(?.. %? %F{red}%B⨯%b%F{reset})%(1j. %j %F{yellow}%B⚙%b%F{reset}.)'
             ;;
         oneline)
             PROMPT=$'${debian_chroot:+($debian_chroot)}${VIRTUAL_ENV:+($(basename $VIRTUAL_ENV))}%B%F{%(#.red.blue)}%n@%m%b%F{reset}:%B%F{%(#.blue.green)}%~%b%F{reset}%(#.#.$) '
@@ -327,8 +327,11 @@ alias le='ls -A | grep .env | column'
 alias lss='sh -c '\''du -d${2:-99999} -ah $1 | sort -hr | less'\'' _'
 alias lookup='GREP_COLORS="ms=0:mc=0" sh -c '\''grep -rnw --exclude-dir=node_modules --exclude-dir=.git --exclude-dir=.build --exclude-dir=.next --exclude=package*.json --color=auto -E ".*$1.*" "${2:-.}"'\'' _'
 alias ilookup='sh -c '\''grep -rnw --exclude-dir=node_modules --exclude-dir=.git --exclude-dir=.build --exclude-dir=.next --exclude=package*.json --color=auto -iE ".*$1.*" "${2:-.}"'\'' _'
+alias wlookup='grep -rnw --exclude-dir=node_modules --exclude-dir=.git --exclude-dir=.build --exclude-dir=.next --exclude=package*.json --color=auto -E'
+alias iwlookup='grep -rnw --exclude-dir=node_modules --exclude-dir=.git --exclude-dir=.build --exclude-dir=.next --exclude=package*.json --color=auto -iE'
 
 ## Displaying
+alias clr='clear'
 alias cah='highlight'
 alias resize='convert -resize'
 alias logan='sh -c '\''cat "${1:-.}" | cut "-d " -f1,4,7 | egrep -v "/socket.io|/check|/me|/sign-in|/sign-up|/.well-known|/favicon|/robots.txt|/apple-app-site-association|/$" | sort | uniq -w 13 | sed -Erz "s/ \[([0-9]+)\/([a-zA-Z]+)\/([0-9]+):([0-9]+):([0-9]+):([0-9]+)/\t\1 \2 \3 \4:\5/g"'\'' _'
@@ -518,6 +521,7 @@ update-zsh() {
 		./import.sh
 	fi
     
+
 	echo "Run the command below to update your current terminal:
 	. ~/.zshrc
 	"
@@ -619,5 +623,4 @@ export DOCKER_HOST=unix:///run/user/1000/docker.sock
 export NVM_DIR="$HOME/.nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
 [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
-export ENHANCED_PATH='/home/dreamer/Documents/project/EnhancedTerm'
-export APOLLO_ROOT_DIR=/home/dreamer/Documents/TSP/apollo
+export ENHANCED_PATH='/home/night/Documents/project/EnhancedTerminal'
