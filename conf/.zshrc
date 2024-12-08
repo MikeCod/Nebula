@@ -458,8 +458,8 @@ shell-colour() {
 			return 0
 			;;
 		*)
-			printf "\e[31mError\e[0m: Unknown argument $1" >&2
-			printf "Type '$0 -h' for more information" >&2
+			printf "\e[31mError\e[0m: Unknown argument $1\n" >&2
+			printf "Type '$0 -h' for more information\n" >&2
 			return 1
 			;;
 	esac
