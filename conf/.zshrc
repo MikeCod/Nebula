@@ -639,15 +639,15 @@ help() {
 git-convention() {
 	printf "\e[4mGit conventional types:\e[0m
 	
-  \e[36;1mbuild\e[0m     Changes that affect the build system or external dependencies (e.g scopes: gulp, npm)
+  \e[36;1mbuild\e[0m     Changes that affect the build system or external dependencies (e.g. gulp, npm)
   \e[36;1mchore\e[0m     Other changes that don't modify src or test files
-   └─ \e[36;1mmeta\e[0m      Metadata changes (e.g version)
+   └─ \e[36;1mmeta\e[0m      Metadata changes (e.g. version)
   
   \e[36;1mdocs\e[0m      Documentation only changes
   \e[36;1mfeat\e[0m      New feature
   \e[36;1mfix\e[0m       Bug Fixes
-  \e[36;1mops\e[0m       Operational components (e.g infrastructure, deployment, etc.)
-   ├─ \e[36;1mci\e[0m        Changes to our CI configuration files and scripts (e.g scopes: Travis, Circle)
+  \e[36;1mops\e[0m       Operational components (e.g. infrastructure, deployment, etc.)
+   ├─ \e[36;1mci\e[0m        Changes to our CI configuration files and scripts (e.g. Travis, Circle)
    └─ \e[36;1mrevert\e[0m    Reverts a previous commit
   
   \e[36;1mrefactor\e[0m  A code change that neither fixes a bug nor adds a feature
