@@ -410,8 +410,7 @@ shell-colour() {
 	printf "  LIGHT_CYAN       106  \e[106mLorem Ipsum\e[0m\n"
 	echo
 	echo
-	printf "  \e[4m4-bits (Legacy/Default)\e[0m  "
-	echo '\e[1m\\e[1;31m\e[0m'
+	printf '  \e[4m4-bits\e[0m \e[2m(Legacy)\e[0m  \e[1m\\e[1;31m\e[0m  \e[2mBold + Red\e[0m'
 	echo
 	echo
 
@@ -422,10 +421,9 @@ shell-colour() {
 	echo "  8-bits  (256-color)  5   [0 - 6]"
 	echo "  24-bits (RGB)        2   [0 - 255]"
 	echo
-	printf "\e[4m4-bits  (256-color)\e[0m "
-	echo '\\e[38;\e[1m<16 + (RED*36) + (GREEN*6) + BLUE>\e[0mm'
-	printf "\e[4m24-bits (RGB)\e[0m       "
-	printf '\\e[38;\e[1m<RED>\e[0m;\e[1m<GREEN>\e[0m;\e[1m<BLUE>\e[0mm'
+	printf "\e[4mUsage\e[0m \e[2m(Foreground example)\e[0m\n"
+	printf '  4-bits  (256-color) \\e[38;5;\e[1m<16 + (RED*36) + (GREEN*6) + BLUE>\e[0mm\n'
+	printf '  24-bits (RGB)       \\e[38;2;\e[1m<RED>\e[0m;\e[1m<GREEN>\e[0m;\e[1m<BLUE>\e[0mm'
 	echo
 }
 alias shc='shell-colour'
