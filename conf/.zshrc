@@ -359,47 +359,44 @@ alias gschanges='sh -c '\''git diff --name-only HEAD ${1:-HEAD^} | egrep "^(\w*(
 
 
 shell-colour() {
-	printf "\e[4mStyle\e[0m\n"
-	printf "  NONE/RESET       0    \e[1mLorem Ipsum\e[0m\n"
-	printf "  BOLD             1    \e[1mLorem Ipsum\e[0m\n"
-	printf "  DIM              2    \e[2mLorem Ipsum\e[0m\n"
-	printf "  ITALIC           3    \e[3mLorem Ipsum\e[0m\n"
-	printf "  UNDERLINE        4    \e[4mLorem Ipsum\e[0m\n"
-	printf "  BLINK            5    \e[5mLorem Ipsum\e[0m\n"
-	printf "  BLINK_FAST       6    \e[6mLorem Ipsum\e[0m\n"
-	printf "  REVERSE          7    \e[7mLorem Ipsum\e[0m\n"
-	printf "  HIDE             8    \e[8mLorem Ipsum\e[0m\n"
-	printf "  STRIKE           9    \e[9mLorem Ipsum\e[0m\n"
-	printf "  DOUBLE_UNDERLINE 21   \e[21mLorem Ipsum\e[0m\n"
-	echo
+	show_list() {
+		local title=$1
+		local i=$2
+		shift 2
 
-	printf "\e[4mForeground\e[0m\n"
-	echo   "  DEFAULT  39"
-	printf "           \e[4mNormal\e[0m      \e[4mBright (non-standard)\e[0m\n"
-	
-	list=("BLACK" "RED" "GREEN" "YELLOW" "BLUE" "MAGENTA" "CYAN", "WHITE")
-	i=30
-	for colour in "${list[@]}"; do
-		printf "  \e[%im%-8s %i %-8s \e[%im%i %-9s\e[0m\n" $i "$colour" $i "Lorem" ((i+60)) ((i+60)) "Lorem"
-		((i++))
-	done
+		printf "\e[4m${title}\e[0m\n"
+		if (( i >= 30 )); then
+			printf "  DEFAULT      %i\n" ((i+9))
+			printf "               \e[4mNormal\e[0m      \e[4mBright (non-standard)\e[0m\n"
+		fi
+		for c in "$@"; do
+			if (( i == 8 )); then
+				printf "  %-16s %i  \e[%im%-8s\e[0m\n" "$c" $i $i "Lorem Ipsum"
+			elif (( i < 30 )); then
+				printf "  \e[%im%-16s %i  %-8s\e[0m\n" $i "$c" $i "Lorem Ipsum"
+			else
+				printf "  \e[%im%-12s %i %-8s \e[%im%i %-9s\e[0m\n" $i "$c" $i "Lorem" ((i+60)) ((i+60)) "Lorem"
+			fi
+			((i++))
+		done
+		if (( i < 30 )); then
+			printf "  DOUBLE_UNDERLINE 21 \e[21mLorem Ipsum\e[0m\n"
+		fi
+		echo
+	}
+	style=("NORMAL/RESET" "BOLD" "DIM" "ITALIC" "UNDERLINE" "BLINK" "BLINK_FAST" "REVERSE" "HIDE" "STRIKE")
+	show_list "Style" 0 $style
 
-	printf "\n\e[4mBackground\e[0m\n"
-	echo   "  DEFAULT  49"
-	printf "           \e[4mNormal\e[0m      \e[4mBright (non-standard)\e[0m\n"
-	i=40
-	for colour in "${list[@]}"; do
-		printf "  \e[%im%-8s %i %-8s \e[%im%i %-9s\e[0m\n" $i "$colour" $i "Lorem" ((i+60)) ((i+60)) "Lorem"
-		((i++))
-	done
+	colour=("BLACK" "RED" "GREEN" "YELLOW" "BLUE" "MAGENTA" "CYAN" "WHITE")
+	show_list "Foreground" 30 $colour
+	show_list "Background" 40 $colour
 
-	echo
 	echo
 	printf '  \e[4m4-bits\e[0m \e[2m(Legacy)\e[0m  \e[1m\\e[1;31m\e[0m  \e[2mBold + Red\e[0m\n'
 	echo
 	echo
 
-	printf "\e[4mExtended\e[0m\n"
+	printf "\e[4mExtended\e[0m \e[2m(non-standard)\e[0m\n"
 	echo "  Foreground           38"
 	echo "  Background           48"
 	echo
