@@ -83,13 +83,14 @@ update-zsh
   - Hex editor
   - Vim
 
-## Preview
+## Preview - Frequently Asked Questions
 
 ### Git convention
 ![Git convention](asset/git-convention.png)
 ### Search within manual and/or packages
 ![Search within manual and/or packages](asset/search.png)
-
+### Shell colours
+![Shell colours](asset/shell-colours.png)
 ## LibreOffice Template
 
 <img src="asset/libreoffice.png" alt="libreoffice" width="320" />
@@ -211,8 +212,10 @@ update-zsh
 #### Help
 | Command | Description |
 |---|---|
+| `gitc` *or* `git-convention` | Display help about git convention |
 | `help [<text>]` | Display a help. If an argument is given call `search <text>` |
 | `help-recovery` | Display a help intended for recovery |
+| `shc` *or* `shell-colour` | Display help about shell colours |
 
 ### VSCode Keyboard Shortcuts
 | Key | Command |
