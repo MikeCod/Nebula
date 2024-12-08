@@ -360,7 +360,7 @@ alias gschanges='sh -c '\''git diff --name-only HEAD ${1:-HEAD^} | egrep "^(\w*(
 
 shell-colour() {
 	256_colours() {
-		printf "\e[4m256-colours (6x6x6)\e[0m \e[2m(non-standard)\e[0m\n"
+		printf "\e[4m8-bit 256-colours (6x6x6)\e[0m \e[2m(non-standard)\e[0m\n"
 		for ((bright = 0 ; bright < 16 ; bright++)); do
 			printf "\e[48;5;%im %03i \e[0m"  $bright $bright
 			if (( bright % 6 == 5)); then
@@ -388,8 +388,8 @@ shell-colour() {
 		printf '  \\e[<38|48>;5;\e[1m<colour>\e[0mm\n'
 	}
 	rgb_colours() {
-		printf "\e[4mExtended RGB colours\e[0m \e[2m(non-standard)\e[0m\n"
-		printf '  24-bits (RGB)       \\e[<38|48>;2;\e[1m<RED>\e[0m;\e[1m<GREEN>\e[0m;\e[1m<BLUE>\e[0mm\n'
+		printf "\e[4m24-bit RGB colours\e[0m \e[2m(non-standard)\e[0m\n"
+		printf '  \\e[<38|48>;2;\e[1m<RED>\e[0m;\e[1m<GREEN>\e[0m;\e[1m<BLUE>\e[0mm\n'
 	}
 	extended_footer() {
 		echo
@@ -399,30 +399,28 @@ shell-colour() {
 	case "$1" in
 		"-256")
 			256_colours
-			extended_footer
 			;;
 		"-rgb")
 			rgb_colours
-			extended_footer
 			;;
 		"-x")
 			256_colours
 			echo
 			rgb_colours
-			extended_footer
 			;;
 		"-h"|"-?"|"--help")
 			printf "\e[4mUsage:\e[0m $0 { -256 | -rgb | -x }\n"
 			echo
-			echo "  -l    Legacy colours"
-			echo "  -256  Extended 256 colours (non-standard)"
-			echo "  -rgb  Extended RGB colours (non-standard)"
+			echo "  -l    4-bit legacy colours and style"
+			echo "  -256  8-bit extended 256 colours (non-standard)"
+			echo "  -rgb  24-bit extended RGB colours (non-standard)"
 			echo "  -x    All extended colours (non-standard)"
 			echo
 			echo "  -h --help  Show this help"
 			echo "  -?    Alias for -h"
 			echo
 			echo "Note: No parameter will print legacy colours"
+			return 0
 			;;
 		"-l"|"")
 			show_list() {
@@ -456,14 +454,16 @@ shell-colour() {
 			colour=("BLACK" "RED" "GREEN" "YELLOW" "BLUE" "MAGENTA" "CYAN" "WHITE")
 			show_list "Foreground" 30 $colour
 			show_list "Background" 40 $colour
-			printf '  \e[2m4-bits\e[0m \e[2m(Legacy)\e[0m'
+			printf '  \e[2m4-bit\e[0m \e[2m(Legacy)\e[0m\n'
+			return 0
 			;;
 		*)
 			printf "\e[31mError\e[0m: Unknown argument $1" >&2
 			printf "Type '$0 -h' for more information" >&2
+			return 1
 			;;
 	esac
-	echo
+	extended_footer
 }
 alias shc='shell-colour'
 mvsed() {
