@@ -359,53 +359,108 @@ alias gschanges='sh -c '\''git diff --name-only HEAD ${1:-HEAD^} | egrep "^(\w*(
 
 
 shell-colour() {
-	show_list() {
-		local title=$1
-		local i=$2
-		shift 2
-
-		printf "\e[4m${title}\e[0m\n"
-		if (( i >= 30 )); then
-			printf "  DEFAULT      %i\n" ((i+9))
-			printf "               \e[4mNormal\e[0m      \e[4mBright (non-standard)\e[0m\n"
-		fi
-		for c in "$@"; do
-			if (( i == 8 )); then
-				printf "  %-16s %i  \e[%im%-8s\e[0m\n" "$c" $i $i "Lorem Ipsum"
-			elif (( i < 30 )); then
-				printf "  \e[%im%-16s %i  %-8s\e[0m\n" $i "$c" $i "Lorem Ipsum"
-			else
-				printf "  \e[%im%-12s %i %-8s \e[%im%i %-9s\e[0m\n" $i "$c" $i "Lorem" ((i+60)) ((i+60)) "Lorem"
+	256_colours() {
+		printf "\e[4m256-colours (6x6x6)\e[0m \e[2m(non-standard)\e[0m\n"
+		for ((bright = 0 ; bright < 16 ; bright++)); do
+			printf "\e[48;5;%im %03i \e[0m"  $bright $bright
+			if (( bright % 6 == 5)); then
+				echo
 			fi
-			((i++))
 		done
-		if (( i < 30 )); then
-			printf "  DOUBLE_UNDERLINE 21 \e[21mLorem Ipsum\e[0m\n"
-		fi
 		echo
+		for ((red = 0 ; red < 6 ; red++)); do
+			for ((green = 0 ; green < 6 ; green++)); do
+				for ((blue = 0 ; blue < 6 ; blue++)); do
+					colour=(( 16 + (red * 36) + green * 6 + blue ))
+					printf "\e[48;5;%im %03i \e[0m"  $colour $colour
+				done
+				echo
+			done
+		done
+		for ((bright = 232 ; bright < 256 ; bright++)); do
+			printf "\e[48;5;%im %03i \e[0m"  $bright $bright
+			if (( bright % 6 == 3)); then
+				echo
+			fi
+		done
+		echo
+		echo "  16 + (RED*36) + (GREEN*6) + BLUE"
+		printf '  \\e[<38|48>;5;\e[1m<colour>\e[0mm\n'
 	}
-	style=("NORMAL/RESET" "BOLD" "DIM" "ITALIC" "UNDERLINE" "BLINK" "BLINK_FAST" "REVERSE" "HIDE" "STRIKE")
-	show_list "Style" 0 $style
+	rgb_colours() {
+		printf "\e[4mExtended RGB colours\e[0m \e[2m(non-standard)\e[0m\n"
+		printf '  24-bits (RGB)       \\e[<38|48>;2;\e[1m<RED>\e[0m;\e[1m<GREEN>\e[0m;\e[1m<BLUE>\e[0mm\n'
+	}
+	extended_footer() {
+		echo
+		echo "  Foreground  38"
+		echo "  Background  48"
+	}
+	case "$1" in
+		"-256")
+			256_colours
+			extended_footer
+			;;
+		"-rgb")
+			rgb_colours
+			extended_footer
+			;;
+		"-x")
+			256_colours
+			echo
+			rgb_colours
+			extended_footer
+			;;
+		"-h"|"-?"|"--help")
+			printf "\e[4mUsage:\e[0m $0 { -256 | -rgb | -x }\n"
+			echo
+			echo "  -256  Extended 256 colours (non-standard)"
+			echo "  -rgb  Extended RGB colours (non-standard)"
+			echo "  -x    All extended colours (non-standard)"
+			echo
+			echo "  -h --help  Show this help"
+			echo "  -?    Alias for -h"
+			;;
+		"")
+			show_list() {
+				local title=$1
+				local i=$2
+				shift 2
 
-	colour=("BLACK" "RED" "GREEN" "YELLOW" "BLUE" "MAGENTA" "CYAN" "WHITE")
-	show_list "Foreground" 30 $colour
-	show_list "Background" 40 $colour
+				printf "\e[4m${title}\e[0m\n"
+				if (( i >= 30 )); then
+					printf "  DEFAULT      %i\n" ((i+9))
+					printf "               \e[4mNormal\e[0m      \e[4mBright (non-standard)\e[0m\n"
+				fi
+				for c in "$@"; do
+					if (( i == 8 )); then
+						printf "  %-16s %i  \e[%im%-8s\e[0m\n" "$c" $i $i "Lorem Ipsum"
+					elif (( i < 30 )); then
+						printf "  \e[%im%-16s %i  %-8s\e[0m\n" $i "$c" $i "Lorem Ipsum"
+					else
+						printf "  \e[%im%-12s %i %-8s \e[%im%i %-9s\e[0m\n" $i "$c" $i "Lorem" ((i+60)) ((i+60)) "Lorem"
+					fi
+					((i++))
+				done
+				if (( i < 30 )); then
+					printf "  DOUBLE_UNDERLINE 21 \e[21mLorem Ipsum\e[0m\n"
+				fi
+				echo
+			}
+			style=("NORMAL/RESET" "BOLD" "DIM" "ITALIC" "UNDERLINE" "BLINK" "BLINK_FAST" "REVERSE" "HIDE" "STRIKE")
+			show_list "Style" 0 $style
 
-	echo
-	printf '  \e[4m4-bits\e[0m \e[2m(Legacy)\e[0m  \e[1m\\e[1;31m\e[0m  \e[2mBold + Red\e[0m\n'
-	echo
-	echo
-
-	printf "\e[4mExtended\e[0m \e[2m(non-standard)\e[0m\n"
-	echo "  Foreground           38"
-	echo "  Background           48"
-	echo
-	echo "  8-bits  (256-color)  5   [0 - 6]"
-	echo "  24-bits (RGB)        2   [0 - 255]"
-	echo
-	printf "\e[4mUsage\e[0m \e[2m(Foreground example)\e[0m\n"
-	printf '  4-bits  (256-color) \\e[38;5;\e[1m<16 + (RED*36) + (GREEN*6) + BLUE>\e[0mm\n'
-	printf '  24-bits (RGB)       \\e[38;2;\e[1m<RED>\e[0m;\e[1m<GREEN>\e[0m;\e[1m<BLUE>\e[0mm'
+			colour=("BLACK" "RED" "GREEN" "YELLOW" "BLUE" "MAGENTA" "CYAN" "WHITE")
+			show_list "Foreground" 30 $colour
+			show_list "Background" 40 $colour
+			echo
+			printf '  \e[2m4-bits\e[0m \e[2m(Legacy)\e[0m\n'
+			;;
+		*)
+			printf "\e[31mError\e[0m: Unknown argument $1" >&2
+			printf "Type '$0 -h' for more information" >&2
+			;;
+	esac
 	echo
 }
 alias shc='shell-colour'
