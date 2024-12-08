@@ -414,14 +414,17 @@ shell-colour() {
 		"-h"|"-?"|"--help")
 			printf "\e[4mUsage:\e[0m $0 { -256 | -rgb | -x }\n"
 			echo
+			echo "  -l    Legacy colours"
 			echo "  -256  Extended 256 colours (non-standard)"
 			echo "  -rgb  Extended RGB colours (non-standard)"
 			echo "  -x    All extended colours (non-standard)"
 			echo
 			echo "  -h --help  Show this help"
 			echo "  -?    Alias for -h"
+			echo
+			echo "Note: No parameter will print legacy colours"
 			;;
-		"")
+		"-l"|"")
 			show_list() {
 				local title=$1
 				local i=$2
@@ -453,8 +456,7 @@ shell-colour() {
 			colour=("BLACK" "RED" "GREEN" "YELLOW" "BLUE" "MAGENTA" "CYAN" "WHITE")
 			show_list "Foreground" 30 $colour
 			show_list "Background" 40 $colour
-			echo
-			printf '  \e[2m4-bits\e[0m \e[2m(Legacy)\e[0m\n'
+			printf '  \e[2m4-bits\e[0m \e[2m(Legacy)\e[0m'
 			;;
 		*)
 			printf "\e[31mError\e[0m: Unknown argument $1" >&2
