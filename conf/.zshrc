@@ -327,10 +327,12 @@ alias lb='ls /bin /usr/bin /usr/local/bin | sort | uniq | column'
 alias lc='echo $?'
 alias le='ls -A | grep .env | column'
 alias lss='sh -c '\''du -d${2:-99999} -ah $1 | sort -hr | less'\'' _'
-alias lookup='GREP_COLORS="ms=0:mc=0" sh -c '\''grep -rnw --exclude-dir=node_modules --exclude-dir=.git --exclude-dir=.build --exclude-dir=.next --exclude=package*.json --color=auto -E ".*$1.*" "${2:-.}"'\'' _'
-alias ilookup='sh -c '\''grep -rnw --exclude-dir=node_modules --exclude-dir=.git --exclude-dir=.build --exclude-dir=.next --exclude=package*.json --color=auto -iE ".*$1.*" "${2:-.}"'\'' _'
-alias wlookup='grep -rnw --exclude-dir=node_modules --exclude-dir=.git --exclude-dir=.build --exclude-dir=.next --exclude=package*.json --color=auto -E'
-alias iwlookup='grep -rnw --exclude-dir=node_modules --exclude-dir=.git --exclude-dir=.build --exclude-dir=.next --exclude=package*.json --color=auto -iE'
+alias lookup='GREP_COLORS="ms=0:mc=0" sh -c '\''grep -rnw --exclude-dir=node_modules --exclude-dir=.git --exclude-dir=.build --exclude-dir=.next --exclude=package*.json --exclude=*.pdf --color=auto -E ".*$1.*" "${2:-.}"'\'' _'
+alias ilookup='sh -c '\''grep -rnw --exclude-dir=node_modules --exclude-dir=.git --exclude-dir=.build --exclude-dir=.next --exclude=package*.json --exclude=*.pdf --color=auto -iE ".*$1.*" "${2:-.}"'\'' _'
+alias wlookup='grep -rnw --exclude-dir=node_modules --exclude-dir=.git --exclude-dir=.build --exclude-dir=.next --exclude=package*.json --exclude=*.pdf --color=auto -E'
+alias iwlookup='grep -rnw --exclude-dir=node_modules --exclude-dir=.git --exclude-dir=.build --exclude-dir=.next --exclude=package*.json --exclude=*.pdf --color=auto -iE'
+alias pdflookup='pdfgrep -Rn'
+alias ipdflookup='pdfgrep -Rni'
 
 ## Displaying
 alias clr='clear'
@@ -466,13 +468,28 @@ shell-colour() {
 	extended_footer
 }
 alias shc='shell-colour'
-mvsed() {
-	regex="$1"
-	path="${2:-.}"
-	shift 2
+# dpdflookup() {
+# 	local text="$1"
+# 	local _path="."
+# 	shift
+# 	if [[ $1 != '' ]]; then
+# 		_path="$1"
+# 		shift
+# 	fi
 
-	find $path $@ -exec sh -c 'echo "{}" "$(echo {} | sed -Erz "s/_/ /g; s/([a-z])\- /\1\-/g")"' \;
-}
+# 	find ${_path} $@ -name '*.pdf' -exec sh -c "pdftotext -nopgbrk '{}' - | sed -Erz 's/([a-zA-Z0-9 _–-])\n/\1/g' | grep --with-filename --label='{}' --color '${text}'" \;
+# }
+# mvsed() {
+# 	local _regex="$1"
+# 	local _path="."
+# 	shift
+# 	if [[ $1 != '' ]]; then
+# 		_path="$1"
+# 		shift
+# 	fi
+
+# 	find ${_path} $@ -not -name '.' -exec sh -c 'echo "{}" $(echo {} | sed -Erz "s/([.\[\]\(\)*^$+?{|])/\\1/g; '${_regex}'")' \;
+# }
 rimg() {
 	if [ ! -f "$1" ]; then
 		echo "No such file '$1'" >&2
