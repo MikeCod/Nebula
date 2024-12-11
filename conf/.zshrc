@@ -333,6 +333,7 @@ alias wlookup='grep -rnw --exclude-dir=node_modules --exclude-dir=.git --exclude
 alias iwlookup='grep -rnw --exclude-dir=node_modules --exclude-dir=.git --exclude-dir=.build --exclude-dir=.next --exclude=package*.json --exclude=*.pdf --color=auto -iE'
 alias pdflookup='pdfgrep -Rn'
 alias ipdflookup='pdfgrep -Rni'
+alias cpdflookup='sh -c '\''pdfgrep -Rc "$1" $2 $3 | egrep -v ":0$" | sed -E "s/(.+)\:([0-9]+)/\x1b[35m\1\x1b[0m:\x1b[36m\2/"'\'' _'
 
 ## Displaying
 alias clr='clear'
