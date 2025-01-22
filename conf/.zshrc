@@ -360,6 +360,9 @@ alias aalias='alias | sed -E "s/='\''(.+)'\''/ \1/"'
 alias gchanges='sh -c '\''git diff --name-only HEAD ${1:-HEAD^}'\'' _'
 alias gschanges='sh -c '\''git diff --name-only HEAD ${1:-HEAD^} | egrep "^(\w*(\.(([jt]sx{0,1})|(yml)|(jsonc{0,1}))$)|(Dockerfile)|((src)|(test)|(\.well-known)|(cron)|(public)\/)$2)"'\'' _'
 
+alias ip-local='ip -4 -o -c=never a | egrep "wlan|eth" | cut "-d " -f7 | cut "-d/" -f1'
+alias ip-iface='ip -4 -o -c=never a | egrep "wlan|eth" | cut "-d " -f2'
+alias vpn-exception='sh -c '\''sudo ip route add $1 via $(ip -4 -o -c=never a | egrep "wlan|eth" | cut "-d " -f7 | cut "-d/" -f1) dev $(ip -4 -o -c=never a | egrep "wlan|eth" | cut "-d " -f2)'\'' _'
 
 shell-colour() {
 	256_colours() {
@@ -721,4 +724,4 @@ export NVM_DIR="$HOME/.nvm"
 [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
 export PRINT='
 n'
-export ENHANCED_PATH='/home/night/Documents/project/EnhancedTerminal'
+export ENHANCED_PATH='/home/dreamer/Documents/project/EnhancedTerm'

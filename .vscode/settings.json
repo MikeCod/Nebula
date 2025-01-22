@@ -3,5 +3,6 @@
 		"*compose.yml.template": "dockercompose",
 		".env.*": "properties",
 		"cstdint": "cpp"
-	}
+	},
+	"workbench.panel.defaultLocation": "right"
 }
