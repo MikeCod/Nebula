@@ -418,19 +418,51 @@ vpn-exception-host() {
 		echo "Error: Host missing" >& 2
 		return 1
 	fi
-	# ips_array="${ips//\n/ }"
-	# echo $ips
 	iface=$(ip -4 -o -c=never a | egrep "wlan|eth")
 	iface_ip=$(echo "$iface" | cut "-d " -f7 | cut "-d/" -f1)
 	iface_name=$(echo $iface | cut "-d " -f2)
 	n=0
 	for ip in $(host -t a $1 | grep "has address" | cut -f4 '-d ' | tr '\n' ' '); do
-		echo $ip
+		echo "\e[32;1m+\e[0m \e[35m$ip\e[0m via \e[35m$iface_ip\e[0m dev \e[36m$iface_name\e[0m"
 		sudo ip route add "$ip" via "$iface_ip" dev "$iface_name"
 		((n++))
 	done
 	if [[ $n == 0 ]]; then
 		echo "Error: Could not find any IPv4 for $1" >& 2
+		return 1
+	fi
+}
+vpn-exception-host-remove() {
+	if [[ "$1" == "" ]]; then
+		echo "Error: Host missing" >& 2
+		return 1
+	fi
+	iface=$(ip -4 -o -c=never a | egrep "wlan|eth")
+	iface_ip=$(echo "$iface" | cut "-d " -f7 | cut "-d/" -f1)
+	iface_name=$(echo $iface | cut "-d " -f2)
+	n=0
+	for ip in $(host -t a $1 | grep "has address" | cut -f4 '-d ' | tr '\n' ' '); do
+		echo "\e[31;1m-\e[0m \e[35m$ip\e[0m via \e[35m$iface_ip\e[0m dev \e[36m$iface_name\e[0m"
+		sudo ip route del "$ip" via "$iface_ip" dev "$iface_name"
+		((n++))
+	done
+	if [[ $n == 0 ]]; then
+		echo "Error: Could not find any IPv4 for $1" >& 2
+		return 1
+	fi
+}
+vpn-exception-reset() {
+	iface=$(ip -4 -o -c=never a | egrep "wlan|eth")
+	iface_ip=$(echo "$iface" | cut "-d " -f7 | cut "-d/" -f1)
+	iface_name=$(echo $iface | cut "-d " -f2)
+	n=0
+	for ip in $(ip route | grep "$iface_ip dev $iface_name" | cut '-d ' -f1); do
+		echo "\e[31;1m-\e[0m \e[35m$ip\e[0m via \e[35m$iface_ip\e[0m dev \e[36m$iface_name\e[0m"
+		sudo ip route del "$ip" via "$iface_ip" dev "$iface_name"
+		((n++))
+	done
+	if [[ $n == 0 ]]; then
+		echo "No exception found: nothing to do" >& 2
 		return 1
 	fi
 }
