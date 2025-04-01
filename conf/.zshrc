@@ -364,11 +364,81 @@ alias ip-local='ip -4 -o -c=never a | egrep "wlan|eth" | cut "-d " -f7 | cut "-d
 alias ip-iface='ip -4 -o -c=never a | egrep "wlan|eth" | cut "-d " -f2'
 alias vpn-exception='sh -c '\''sudo ip route add $1 via $(ip -4 -o -c=never a | egrep "wlan|eth" | cut "-d " -f7 | cut "-d/" -f1) dev $(ip -4 -o -c=never a | egrep "wlan|eth" | cut "-d " -f2)'\'' _'
 
+## FFMpeg
+alias ffmpeg-cut='sh -c '\''ffmpeg -ss "$3" -t "$4" -i "$2" -vcodec copy -acodec copy "$1"'\'' _'
+ffmpeg-merge() {
+	output="$1"
+	shift
+
+	touch .pipeline.txt
+	for input in $@; do
+		echo "file '$input'" >> .pipeline.txt
+	done
+	ffmpeg -f concat -safe 0 -i .pipeline.txt -map 0 -codec copy "$output"
+	# rm .pipeline.txt
+}
+alias ffmpeg-img='sh -c '\''ffmpeg -loop 1 -f image2 -i "$2" -c:v libx264 -t "$3" "$1"'\'' _'
+
+ffmpeg-overlay() {
+	ffmpeg -i "$2" -i "$3" -filter_complex "overlay=main_w-overlay_w:main_h-overlay_h:enable='between(t,$4,$5)'" -preset fast -c:a copy "$1"
+}
+
+ffmpeg-build() {
+	output="$1"
+	inputs=()
+	shift
+
+	for ((i = 1 ; i < $# + 1 ; i++)); do
+		input=${@[$i]}
+
+		echo "Input: $input"
+
+		# for input in $@; do
+		if [[ "$input" =~ .(jpg|jpeg|png|bmp|webp)$ ]]; then
+			duration=5
+			
+			if [[ ${@[((i + 1))]} =~ ^[0-9]+$ ]]; then
+				duration=${@[((i + 1))]}
+				((i++))
+			fi
+			echo "$duration"
+
+			ffmpeg-img "$i-$output" "$input" "$duration" &> /dev/null
+
+			inputs+=("$i-$output")
+		elif [[ "$input" =~ .(avi|mp4|mov|mkv)$ ]]; then
+			inputs+=("$i-$output")
+		fi
+	done
+	ffmpeg-merge "$output" $inputs
+}
+
+vpn-exception-host() {
+	if [[ "$1" == "" ]]; then
+		echo "Error: Host missing" >& 2
+		return 1
+	fi
+	# ips_array="${ips//\n/ }"
+	# echo $ips
+	iface=$(ip -4 -o -c=never a | egrep "wlan|eth")
+	iface_ip=$(echo "$iface" | cut "-d " -f7 | cut "-d/" -f1)
+	iface_name=$(echo $iface | cut "-d " -f2)
+	n=0
+	for ip in $(host -t a $1 | grep "has address" | cut -f4 '-d ' | tr '\n' ' '); do
+		echo $ip
+		sudo ip route add "$ip" via "$iface_ip" dev "$iface_name"
+		((n++))
+	done
+	if [[ $n == 0 ]]; then
+		echo "Error: Could not find any IPv4 for $1" >& 2
+		return 1
+	fi
+}
 shell-colour() {
 	256_colours() {
 		printf "\e[4m8-bit 256-colours (6x6x6)\e[0m \e[2m(non-standard)\e[0m\n"
 		for ((bright = 0 ; bright < 16 ; bright++)); do
-			printf "\e[48;5;%im %03i \e[0m"  $bright $bright
+			printf "\e[48;5;%im %03i \e[0m" $bright $bright
 			if (( bright % 6 == 5)); then
 				echo
 			fi
@@ -378,13 +448,13 @@ shell-colour() {
 			for ((green = 0 ; green < 6 ; green++)); do
 				for ((blue = 0 ; blue < 6 ; blue++)); do
 					colour=(( 16 + (red * 36) + green * 6 + blue ))
-					printf "\e[48;5;%im %03i \e[0m"  $colour $colour
+					printf "\e[48;5;%im %03i \e[0m" $colour $colour
 				done
 				echo
 			done
 		done
 		for ((bright = 232 ; bright < 256 ; bright++)); do
-			printf "\e[48;5;%im %03i \e[0m"  $bright $bright
+			printf "\e[48;5;%im %03i \e[0m" $bright $bright
 			if (( bright % 6 == 3)); then
 				echo
 			fi
@@ -724,4 +794,5 @@ export NVM_DIR="$HOME/.nvm"
 [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
 export PRINT='
 n'
-export ENHANCED_PATH='/home/dreamer/Documents/project/EnhancedTerm'
+export PATH=$PATH:$HOME/.maestro/bin
+export ENHANCED_PATH='/home/night/Documents/project/EnhancedTerminal'
