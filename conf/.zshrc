@@ -421,8 +421,10 @@ shred-folder() {
 		echo "Error: Folder missing" >& 2
 		return 1
 	fi
-	find "$1" -type f -exec shred -vu {} \;
-	find "$1" -type d -empty -delete
+	folder="$1"
+	shift
+	find "$folder" -type f -exec shred -vu $@ {} \;
+	find "$folder" -type d -empty -delete
 }
 
 vpn-exception-host() {
