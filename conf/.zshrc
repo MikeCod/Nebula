@@ -416,6 +416,15 @@ ffmpeg-build() {
 	ffmpeg-merge "$output" $inputs
 }
 
+shred-folder() {
+	if [[ "$1" == "" ]]; then
+		echo "Error: Folder missing" >& 2
+		return 1
+	fi
+	find "$1" -type f -exec shred -vu {} \;
+	find "$1" -type d -empty -delete
+}
+
 vpn-exception-host() {
 	if [[ "$1" == "" ]]; then
 		echo "Error: Host missing" >& 2
