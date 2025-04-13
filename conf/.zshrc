@@ -336,7 +336,21 @@ alias wlookup='grep -rnw --exclude-dir=node_modules --exclude-dir=.git --exclude
 alias iwlookup='grep -rnw --exclude-dir=node_modules --exclude-dir=.git --exclude-dir=.build --exclude-dir=.next --exclude=package*.json --exclude=*.pdf --color=auto -iE'
 alias pdflookup='pdfgrep -Rn'
 alias ipdflookup='pdfgrep -Rni'
-alias cpdflookup='sh -c '\''pdfgrep -Rc "$1" $2 $3 | egrep -v ":0$" | sed -E "s/(.+)\:([0-9]+)/\x1b[35m\1\x1b[0m:\x1b[36m\2/"'\'' _'
+# alias cpdflookup='sh -c '\''pdfgrep -Rc "$1" $2 $3 | egrep -v ":0$" | sed -e :a -e "s/\:\d\{1,3\}\$/0&/;ta"'\'' _'
+# cpdflookup() {
+# 	local spath="${1:-.}"
+# 	shift
+# 	for match in $(pdfgrep -Rc "$spath" $@); do
+# 		if ! [[ "$match" =~ :0$ ]]; then
+# 			# echo "$match"
+# 			filepath="$(echo -n $match | sed -E 's/^(.+)\:[0-9]+$/\1/g')"
+# 			number="$(echo -n $match | sed -E 's/^.+\:([0-9]+)$/\1/g')"
+# 			printf "%-3d %s\n" "$number" "$filepath"
+# 		fi
+# 	done
+# }
+
+#  | s /\x1b[36m\2 &\x1b[35m\1\x1b[0m/;ta
 
 ## Displaying
 alias clr='clear'
@@ -365,7 +379,7 @@ alias gschanges='sh -c '\''git diff --name-only HEAD ${1:-HEAD^} | egrep "^(\w*(
 
 alias ip-local='ip -4 -o -c=never a | egrep "wlan|eth" | cut "-d " -f7 | cut "-d/" -f1'
 alias ip-iface='ip -4 -o -c=never a | egrep "wlan|eth" | cut "-d " -f2'
-alias vpn-exception='sh -c '\''sudo ip route add $1 via $(ip -4 -o -c=never a | egrep "wlan|eth" | cut "-d " -f7 | cut "-d/" -f1) dev $(ip -4 -o -c=never a | egrep "wlan|eth" | cut "-d " -f2)'\'' _'
+# alias vpn-exception='sh -c '\''sudo ip route add $1 via $(ip -4 -o -c=never a | egrep "wlan|eth" | cut "-d " -f7 | cut "-d/" -f1) dev $(ip -4 -o -c=never a | egrep "wlan|eth" | cut "-d " -f2)'\'' _'
 
 ## FFMpeg
 alias ffmpeg-cut='sh -c '\''ffmpeg -ss "$3" -t "$4" -i "$2" -vcodec copy -acodec copy "$1"'\'' _'
@@ -416,6 +430,35 @@ ffmpeg-build() {
 	ffmpeg-merge "$output" $inputs
 }
 
+watermark() {
+	if [[ "$1" == "" ]]; then
+		echo "Error: Watermark text and file missing" >& 2
+		echo "Usage: $0 <watermark> <file>" >& 2
+		return 1
+	elif [[ "$2" == "" ]]; then
+		echo "Error: File missing" >& 2
+		echo "Usage: $0 <watermark> <file>" >& 2
+		return 1
+	fi
+	if [ -f "$2" ]; then
+		magick -size 260x120 xc:none -fill grey \
+		-gravity NorthWest -draw "translate 10,10 rotate -15 text 10,10 '$1'" \
+		-gravity SouthEast -draw "translate 10,10 rotate -15 text 5,15 '$1'" \
+		miff:- | \
+		magick composite -tile - "$2" $(echo "$2" | sed -E 's/\.([a-zA-Z]{3,4})/-wmark\.\1/ig')
+	elif [ -d "$2" ]; then
+		find "$2" -type f \
+			-regex '.*\.\(png\|jpeg\|jpg\|bmp\|webp\)$' \
+			-exec sh -c "magick -size 260x120 xc:none -fill grey \
+				-gravity NorthWest -draw \"translate 10,10 rotate -15 text 10,10 '$1'\" \
+				-gravity SouthEast -draw \"translate 10,10 rotate -15 text 5,15 '$1'\" \
+				miff:- | \
+				magick composite -tile - '{}' \"\$(echo '{}' | sed -E 's/\.([a-zA-Z]{3,4})/-wmark\.\1/ig')\"" \;
+	else
+		echo "Error: '$2' isn't a file nor a directory" >& 2
+	fi
+}
+
 shred-folder() {
 	if [[ "$1" == "" ]]; then
 		echo "Error: Folder missing" >& 2
@@ -427,58 +470,69 @@ shred-folder() {
 	find "$folder" -type d -empty -delete
 }
 
-vpn-exception-host() {
-	if [[ "$1" == "" ]]; then
-		echo "Error: Host missing" >& 2
-		return 1
-	fi
-	iface=$(ip -4 -o -c=never a | egrep "wlan|eth")
-	iface_ip=$(echo "$iface" | cut "-d " -f7 | cut "-d/" -f1)
-	iface_name=$(echo $iface | cut "-d " -f2)
-	n=0
-	for ip in $(host -t a $1 | grep "has address" | cut -f4 '-d ' | tr '\n' ' '); do
-		echo "\e[32;1m+\e[0m \e[35m$ip\e[0m via \e[35m$iface_ip\e[0m dev \e[36m$iface_name\e[0m"
-		sudo ip route add "$ip" via "$iface_ip" dev "$iface_name"
-		((n++))
-	done
-	if [[ $n == 0 ]]; then
-		echo "Error: Could not find any IPv4 for $1" >& 2
-		return 1
-	fi
-}
-vpn-exception-host-remove() {
-	if [[ "$1" == "" ]]; then
-		echo "Error: Host missing" >& 2
-		return 1
-	fi
-	iface=$(ip -4 -o -c=never a | egrep "wlan|eth")
-	iface_ip=$(echo "$iface" | cut "-d " -f7 | cut "-d/" -f1)
-	iface_name=$(echo $iface | cut "-d " -f2)
-	n=0
-	for ip in $(host -t a $1 | grep "has address" | cut -f4 '-d ' | tr '\n' ' '); do
-		echo "\e[31;1m-\e[0m \e[35m$ip\e[0m via \e[35m$iface_ip\e[0m dev \e[36m$iface_name\e[0m"
-		sudo ip route del "$ip" via "$iface_ip" dev "$iface_name"
-		((n++))
-	done
-	if [[ $n == 0 ]]; then
-		echo "Error: Could not find any IPv4 for $1" >& 2
-		return 1
-	fi
-}
-vpn-exception-reset() {
-	iface=$(ip -4 -o -c=never a | egrep "wlan|eth")
-	iface_ip=$(echo "$iface" | cut "-d " -f7 | cut "-d/" -f1)
-	iface_name=$(echo $iface | cut "-d " -f2)
-	n=0
-	for ip in $(ip route | grep "$iface_ip dev $iface_name" | cut '-d ' -f1); do
-		echo "\e[31;1m-\e[0m \e[35m$ip\e[0m via \e[35m$iface_ip\e[0m dev \e[36m$iface_name\e[0m"
-		sudo ip route del "$ip" via "$iface_ip" dev "$iface_name"
-		((n++))
-	done
-	if [[ $n == 0 ]]; then
-		echo "No exception found: nothing to do" >& 2
-		return 1
-	fi
+vpn-exception() {
+    local action="$1"
+    if [[ "$action" == "" ]]; then
+        echo "Error: Action missing" >& 2
+        echo "Usage: $0 { add | del | reset | get } { <IPv4> | <domain> }"
+        return 1
+    elif [[ "$action" != "add" && "$action" != "del" && "$action" != "reset" && "$action" != "get" ]]; then
+        echo "Error: Unknown action '$action'" >& 2
+        echo "Usage: $0 { add | del | reset | get } { <IPv4> | <domain> }"
+        return 1
+    elif [[ "$2" == "" && ( "$action" == "add" || "$action" == "del" ) ]]; then
+        echo "Error: Host missing" >& 2
+        echo "Usage: $0 { add | del | reset | get } { <IPv4> | <domain> }"
+        return 1
+    fi
+
+    local host="$2"
+    local iface=$(ip -4 -o -c=never a | egrep "wlan|eth")
+    local iface_ip=$(echo "$iface" | cut "-d " -f7 | cut "-d/" -f1)
+    local iface_name=$(echo $iface | cut "-d " -f2)
+    local n=0
+    
+    case "$action" in
+        add|del)
+            if [[ "$host" =~ ^(([1-9]?[0-9]|1[0-9][0-9]|2([0-4][0-9]|5[0-5]))\.){3}([1-9]?[0-9]|1[0-9][0-9]|2([0-4][0-9]|5[0-5]))$ ]]; then
+                sudo ip route $action "$host" via "$iface_ip" dev "$iface_name"
+            else
+                for ip in $(host -t a $host | grep "has address" | cut -f4 '-d ' | tr '\n' ' '); do
+                    sudo ip route $action "$ip" via "$iface_ip" dev "$iface_name"
+                    if [[ $? == 0 ]]; then
+                        printf "%s\e[0m \e[35m$ip\e[0m via \e[35m$iface_ip\e[0m dev \e[36m$iface_name\e[0m\n" $([ "$action" == "add" ] && echo "\e[32;1m+" || echo "\e[31;1m-")
+                    fi
+                    ((n++))
+                done
+                if [[ $n == 0 ]]; then
+                    echo "Error: Could not find any IPv4 for '$host'" >& 2
+                    return 1
+                fi
+            fi
+            ;;
+        reset)
+            for ip in $(ip route | grep "$iface_ip dev $iface_name" | cut '-d ' -f1); do
+                sudo ip route del "$ip" via "$iface_ip" dev "$iface_name"
+                if [[ $? == 0 ]]; then
+                    echo "\e[31;1m-\e[0m \e[35m$ip\e[0m via \e[35m$iface_ip\e[0m dev \e[36m$iface_name\e[0m"
+                fi
+                ((n++))
+            done
+            if [[ $n == 0 ]]; then
+                echo "No exception found: nothing to do" >& 2
+                return 1
+            fi
+            ;;
+        get)
+            for ip in $(ip route | grep "$iface_ip dev $iface_name" | cut '-d ' -f1); do
+                echo "\e[35m$ip\e[0m via \e[35m$iface_ip\e[0m dev \e[36m$iface_name\e[0m"
+                ((n++))
+            done
+            if [[ $n == 0 ]]; then
+                echo "No exception found"
+            fi
+            ;;
+    esac
 }
 shell-colour() {
 	256_colours() {
@@ -637,6 +691,7 @@ rimg() {
 pad() {
 	awk 'BEGIN {FS=OFS="'"${2:=~}"'"} {$1 = sprintf("  \x1b[36;1m%-'"${1:=32}"'s\x1b[0m", $1)} 1'
 }
+alias cpdflookup='sh -c '\''pdfgrep -Rc $@ | egrep -v ":0$" | pad 4 '\'' _'
 
 # Insensitive AND grep
 iagrep() {
@@ -832,7 +887,7 @@ repair() {
 }
 
 export ANDROID_HOME=$HOME/Android/Sdk
-export PATH=$PATH:/snap/bin:$ANDROID_HOME/emulator:$ANDROID_HOME/platform-tools
+export PATH=$PATH:/snap/bin:$ANDROID_HOME/emulator:$ANDROID_HOME/platform-tools:$HOME/.maestro/bin
 export DOCKER_HOST=unix:///run/user/1000/docker.sock
 
 export NVM_DIR="$HOME/.nvm"
@@ -840,5 +895,4 @@ export NVM_DIR="$HOME/.nvm"
 [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
 export PRINT='
 n'
-export PATH=$PATH:$HOME/.maestro/bin
 export ENHANCED_PATH='/home/night/Documents/project/EnhancedTerminal'
