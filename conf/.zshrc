@@ -379,7 +379,7 @@ alias gschanges='sh -c '\''git diff --name-only HEAD ${1:-HEAD^} | egrep "^(\w*(
 
 alias ip-local='ip -4 -o -c=never a | egrep "wlan|eth" | cut "-d " -f7 | cut "-d/" -f1'
 alias ip-iface='ip -4 -o -c=never a | egrep "wlan|eth" | cut "-d " -f2'
-# alias vpn-exception='sh -c '\''sudo ip route add $1 via $(ip -4 -o -c=never a | egrep "wlan|eth" | cut "-d " -f7 | cut "-d/" -f1) dev $(ip -4 -o -c=never a | egrep "wlan|eth" | cut "-d " -f2)'\'' _'
+alias expand-url='sh -c '\''curl -i $1 -s | grep -i location | cut -d: -f2- | xargs'\'' _'
 
 ## FFMpeg
 alias ffmpeg-cut='sh -c '\''ffmpeg -ss "$3" -t "$4" -i "$2" -vcodec copy -acodec copy "$1"'\'' _'
@@ -711,7 +711,7 @@ msearch() {
 
 # Search within (uninstalled) packages
 asearch() {
-	apt search "$@" 2> /dev/null | sed -Erz 's/\n([a-zA-Z0-9_.-]+)\/kali-rolling(([a-zA-Z0-9 ,:+.-]|\[|\])+)/\1/g' | sed -Erz 's/\n  / ~ /g' | iagrep "$@" | pad 18
+	apt search "$@" 2> /dev/null | sed -Erz 's/Full Text Search\.\.\.//g; s/\n([a-zA-Z0-9_.-]+)\/kali-rolling(([a-zA-Z0-9 ,:+.-]|\[|\])+)/\1/g' | sed -Erz 's/\n  / ~ /g' | iagrep "$@" | pad 18
 }
 
 # Search within manual and packages
