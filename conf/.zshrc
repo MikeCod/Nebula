@@ -326,7 +326,7 @@ alias objdump='objdump -M intel --disassembler-color=on'
 alias rsync='rsync -ah --info=progress2'
 
 ## Finding & Listing
-alias lb='ls /bin /usr/bin /usr/local/bin | sort | uniq | column'
+alias lb='ls /bin /usr/bin /usr/local/bin $HOME/.local/bin | sort | uniq | column'
 alias lc='echo $?'
 alias le='ls -A | grep .env | column'
 alias lss='sh -c '\''du -d${2:-99999} -ah $1 | sort -hr | less'\'' _'
@@ -334,6 +334,7 @@ alias lookup='GREP_COLORS="ms=0:mc=0" sh -c '\''grep -rnw --exclude-dir=node_mod
 alias ilookup='sh -c '\''grep -rnw --exclude-dir=node_modules --exclude-dir=.git --exclude-dir=.build --exclude-dir=.next --exclude=package*.json --exclude=*.pdf --color=auto -iE ".*$1.*" "${2:-.}"'\'' _'
 alias wlookup='grep -rnw --exclude-dir=node_modules --exclude-dir=.git --exclude-dir=.build --exclude-dir=.next --exclude=package*.json --exclude=*.pdf --color=auto -E'
 alias iwlookup='grep -rnw --exclude-dir=node_modules --exclude-dir=.git --exclude-dir=.build --exclude-dir=.next --exclude=package*.json --exclude=*.pdf --color=auto -iE'
+alias iwclookup='grep -rnw --exclude-dir=node_modules --exclude-dir=.git --exclude-dir=.build --exclude-dir=.next --exclude=package*.json --exclude=*.pdf --color=auto -iocE'
 alias pdflookup='pdfgrep -Rn'
 alias ipdflookup='pdfgrep -Rni'
 # alias cpdflookup='sh -c '\''pdfgrep -Rc "$1" $2 $3 | egrep -v ":0$" | sed -e :a -e "s/\:\d\{1,3\}\$/0&/;ta"'\'' _'
@@ -379,7 +380,7 @@ alias gschanges='sh -c '\''git diff --name-only HEAD ${1:-HEAD^} | egrep "^(\w*(
 
 alias ip-local='ip -4 -o -c=never a | egrep "wlan|eth" | cut "-d " -f7 | cut "-d/" -f1'
 alias ip-iface='ip -4 -o -c=never a | egrep "wlan|eth" | cut "-d " -f2'
-alias expand-url='sh -c '\''curl -i $1 -s | grep -i location | cut -d: -f2- | xargs'\'' _'
+alias expand-url='sh -c '\''curl -i $@ -s | grep -i location | cut "-d " -f2-'\'' _'
 
 ## FFMpeg
 alias ffmpeg-cut='sh -c '\''ffmpeg -ss "$3" -t "$4" -i "$2" -vcodec copy -acodec copy "$1"'\'' _'
@@ -661,9 +662,16 @@ alias shc='shell-colour'
 # 		_path="$1"
 # 		shift
 # 	fi
-
 # 	find ${_path} $@ -not -name '.' -exec sh -c 'echo "{}" $(echo {} | sed -Erz "s/([.\[\]\(\)*^$+?{|])/\\1/g; '${_regex}'")' \;
 # }
+cheat-sheet() {
+	# Regex
+	echo "UUID:            /^([0-9a-f-]{36})$/i"
+	echo "Email (max 254): /^[a-z0-9\._-]{1,190}@[a-z0-9\._-]{1,54}\.[a-z0-9]{1,8}$/i     <[name 192]@[domain 64]>"
+	echo "Phone (compact): /^(\+?[0-9]{1,3}|0)([0-9]{7,9})$/                            (+)[country 3][personal 9]"
+	echo "Password:        /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*\W).{8,128}$/u          1 digit, 1 lower & upper letter, 1 symbol, length between 8 and 128 characters"
+	echo "Hash (hex):      /^([[:xdigit:]]{8}){4,8}|([[:xdigit:]]{32}){3,4}$/           160, 192, 224, 256, 384 and 512bits"
+}
 rimg() {
 	if [ ! -f "$1" ]; then
 		echo "No such file '$1'" >&2
