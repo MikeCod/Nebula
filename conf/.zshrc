@@ -287,6 +287,8 @@ alias gch='git checkout'
 alias gchours='git checkout --ours'
 alias gchtheirs='git checkout --theirs'
 alias gcl='git clone'
+#alias gcll='sh -c '\''git clone $1 && cd $1'\'' _'
+gcll() { git clone "$1" "${2:=${1##*/}}" && cd "${2:=${1##*/}}"; }
 alias ga='git add'
 alias gd='git diff'
 alias gdiff='git diff'
@@ -364,6 +366,7 @@ alias original='alias | grep'
 alias adbpush='sh -c '\''adb push $1 ${2:-/sdcard/Pictures/}'\'' _'
 alias layout='setxkbmap -print | grep keycodes | sed -E "s/.+\((.+)\).+/\1/mg"'
 alias schown='sudo chown -R $USER:$USER'
+cdd() { mkdir -p "$1" && cd "$1"; }
 
 ## Hash
 alias blake2b512sum='openssl dgst -blake2b512'
@@ -901,6 +904,5 @@ export DOCKER_HOST=unix:///run/user/1000/docker.sock
 export NVM_DIR="$HOME/.nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
 [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
-export PRINT='
-n'
+
 export ENHANCED_PATH='/home/night/Documents/project/EnhancedTerminal'
