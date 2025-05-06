@@ -287,7 +287,6 @@ alias gch='git checkout'
 alias gchours='git checkout --ours'
 alias gchtheirs='git checkout --theirs'
 alias gcl='git clone'
-#alias gcll='sh -c '\''git clone $1 && cd $1'\'' _'
 gcll() { git clone "$1" "${2:=${1##*/}}" && cd "${2:=${1##*/}}"; }
 alias ga='git add'
 alias gd='git diff'
