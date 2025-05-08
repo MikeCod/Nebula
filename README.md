@@ -202,12 +202,12 @@ update-zsh
 | `ssh-fingerprints [<signature>] [<hash>]` | Show SSH fingerprints |
 
 #### Security
-| Command | Description |
-|---|---|
-| `expand-url <url>` | Expand a shorten URL |
-| `shred-folder <folder>` | Shred folder |
-| ̀`vpn-exception { add \| del \| reset \| get } { <IPv4> \| <domain> }` | Manage VPN exceptions |
-| `watermark <file\|directory>` | Watermark an image, or all images in a directory (including sub-directories) |
+| Command | Description | Note |
+|---|---|---|
+| `expand-url <url>` | Expand a shorten URL | Do NOT perform the redirect ✅ |
+| `shred-folder [options] <folder>` | Shred folder | See `man shred` for more information |
+| `vpn-exception { add \| del \| reset \| get } { <IPv4> \| <domain> }` | Manage VPN exceptions | Actually manage routes. See `ip route` for details |
+| `watermark <file\|directory>` | Watermark an image, or all images in a directory (including sub-directories) | |
 
 #### Help
 | Command | Description |
