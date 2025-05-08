@@ -117,9 +117,9 @@ update-zsh
 | Command | Description |
 |---|---|
 | `nclean` | Remove all `node_modules` folders |
-| `npi` or `npmi` | `npm install` |
-| `npu` or `npmu` | `npm uninstall` |
-| `npr` or `npmr` | `npm run` |
+| `npi` *or* `npmi` | `npm install` |
+| `npu` *or* `npmu` | `npm uninstall` |
+| `npr` *or* `npmr` | `npm run` |
 | `ntree` | List project files |
 | `start` | `npm start` |
 
@@ -129,8 +129,8 @@ update-zsh
 | `ga` | `git add` |
 | `gco` | `git commit -m` |
 | `gch` | `git checkout` |
-| `gcl` | `git clone` |
-| `gd` or `gdiff` | `git diff` |
+| `gcl[l]` | `git clone`, if `l` appended then `cd` into directory if  |
+| `gd` *or* `gdiff` | `git diff` |
 | `glog` | `git log` |
 | `gp` | `git push` |
 | `gpdev` | `git push -u origin dev` |
@@ -151,8 +151,7 @@ update-zsh
 | `dcdefault` | `docker compose -f compose.yml up` |
 | `dcdev` | `docker compose -f compose.development.yml up` |
 | `dctest` | `docker compose -f compose.test.yml up` |
-| `dps` or `dls` | `docker ps` |
-| `dpss` or `dlss` | `docker ps --size` |
+| `dps[s]` *or* `dls` | `docker ps`, + size if `s` appended |
 | `drun` | `docker run -t` |
 
 ### Miscellaneous
@@ -161,8 +160,7 @@ update-zsh
 | Command | Description |
 |---|---|
 | `curl` | Show progress by default |
-| `dd` | `dd status=progress` |
-| `sdd` | `sudo dd status=progress` |
+| `[s]dd` | `dd status=progress`, if `s` prepended then execute as `sudo` |
 | `objdump` | Intel format with syntax color |
 | `rsync` | `rsync -ah --info=progress2` |
 
@@ -170,19 +168,13 @@ update-zsh
 | Command | Description |
 |---|---|
 | `iagrep <args...>` | Insensitive AND grep |
-| `la` | `ls -lA` |
+| `ll` / `la` | `ls -l` / `ls -lA` |
 | `lb` | List programs |
 | `lc` | Last exit code |
 | `le` | List env files |
-| `ll` | `ls -l` |
 | `lss [<path>] [<depth>]` | List files by size descending order |
-| `lookup` | Search a text within all files including subfolders of the current directory |
-| `ilookup` | `lookup` case insensitive |
-| `wlookup` | `lookup` for a whole match (faster) |
-| `iwlookup` | `wlookup` case insensitive |
-| `asearch <text>` | Search a text within available packages |
-| `msearch <text>` | Search a text within manual. Looking on the first page |
-| `search <text>` | Search a text within manual and available packages |
+| `[i][w]lookup` | Search a text within all files including subfolders of the current directory. Prepend `i` for insensitive, `w` for word match (faster) |
+| `[a\|m]search <text>` | Search a text within manual and/or available packages |
 
 #### Displaying
 | Command | Description |
@@ -190,13 +182,13 @@ update-zsh
 | `cah` | Print file content highlighted according to format |
 | `logan` | Analyze log file |
 | `original` | Get alias definition |
-| `resize <height>x<width> <in> <out>` | Resize image |
 
 #### Managing
 | Command | Description |
 |---|---|
 | `adbpush` | Push file to Emulator's picture (Android Studio) |
 | `layout` | Show keyboard layout |
+| `resize <height>x<width> <in> <out>` | Resize image |
 | `schown <path>` | Change user and group ownerschip to current user |
 
 #### Hash
@@ -208,6 +200,14 @@ update-zsh
 | `sha3-256sum` | [SHA3-256](https://keccak.team/keccak.html) |
 | `shake256sum` | [SHAKE-256](https://nvlpubs.nist.gov/nistpubs/FIPS/NIST.FIPS.202.pdf) |
 | `ssh-fingerprints [<signature>] [<hash>]` | Show SSH fingerprints |
+
+#### Security
+| Command | Description |
+|---|---|
+| `expand-url <url>` | Expand a shorten URL |
+| `shred-folder <folder>` | Shred folder |
+| ̀`vpn-exception { add \| del \| reset \| get } { <IPv4> \| <domain> }` | Manage VPN exceptions |
+| `watermark <file\|directory>` | Watermark an image, or all images in a directory (including sub-directories) |
 
 #### Help
 | Command | Description |
