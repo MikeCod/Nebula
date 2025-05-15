@@ -335,13 +335,12 @@ alias lss='sh -c '\''du -d${2:-99999} -ah $1 | sort -hr | less'\'' _'
 lookup() {
 	local pattern="$1"
 	shift
-	GREP_COLORS="ms=0:mc=0" grep -rnw --exclude-dir=node_modules --exclude-dir=.git --exclude-dir=.build --exclude-dir=.next --exclude=package*.json --exclude=*.pdf --color=auto -E ".*$1.*" $@
+	GREP_COLORS="ms=0:mc=0" grep -rnw --exclude-dir=node_modules --exclude-dir=.git --exclude-dir=.build --exclude-dir=.next --exclude=package*.json --exclude=*.pdf --color=auto -E ".*$pattern.*" $@
 }
 ilookup() {
 	local pattern="$1"
 	shift
-	grep -rnw --exclude-dir=node_modules --exclude-dir=.git --exclude-dir=.build --exclude-dir=.next --exclude=package*.json --exclude=*.pdf --color=auto -iE ".*$1.*" 
-	$@
+	grep -rnw --exclude-dir=node_modules --exclude-dir=.git --exclude-dir=.build --exclude-dir=.next --exclude=package*.json --exclude=*.pdf --color=auto -iE ".*$pattern.*" $@
 }
 alias wlookup='grep -rnw --exclude-dir=node_modules --exclude-dir=.git --exclude-dir=.build --exclude-dir=.next --exclude=package*.json --exclude=*.pdf --color=auto -E'
 alias iwlookup='grep -rnw --exclude-dir=node_modules --exclude-dir=.git --exclude-dir=.build --exclude-dir=.next --exclude=package*.json --exclude=*.pdf --color=auto -iE'
@@ -920,4 +919,4 @@ export NVM_DIR="$HOME/.nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
 [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
 
-export ENHANCED_PATH='/home/dream/Documents/project/EnhancedTerminal'
+export ENHANCED_PATH='/home/dream/Documents/project/Nebula'
