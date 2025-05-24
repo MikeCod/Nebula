@@ -15,6 +15,14 @@ This project aims to setup a convenient environment.
 - [Additional Fonts](#additional-fonts)
 - [Gnome Settings](#gnome-settings)
 
+## Environment
+
+| | | |
+|-|-|-|
+| Distro | Debian-like | **Required** |
+| Terminal | ZSH | **Required** |
+| Desktop Environment | GNOME *or* KDE | *Prefered* |
+
 ## Install
 
 ### Full install
