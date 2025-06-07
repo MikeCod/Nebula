@@ -1,6 +1,8 @@
+# Nebula 🌕
+
 ## Overview
 
-This project aims to setup my actual environment as I needed to setup many times.
+This project aims to setup a convenient environment.
 
 [Softwares](#software-installed)
 - [LibreOffice Template](#libreoffice-template)
@@ -8,10 +10,18 @@ This project aims to setup my actual environment as I needed to setup many times
 - [ZSH aliases](#zsh-aliases)
 	- [Node](#node)
 	- [Git](#git)
-	- [Miscellaneous](#miscellaneous)
+	- [Security](#security)
 - [VSCode Keyboard Shortcuts](#vscode-keyboard-shortcuts)
 - [Additional Fonts](#additional-fonts)
 - [Gnome Settings](#gnome-settings)
+
+## Environment
+
+| | | |
+|-|-|-|
+| Distro | Debian-like | **Required** |
+| Terminal | ZSH | **Required** |
+| Desktop Environment | GNOME *or* KDE | *Prefered* |
 
 ## Install
 
@@ -154,9 +164,7 @@ update-zsh
 | `dps[s]` *or* `dls` | `docker ps`, + size if `s` appended |
 | `drun` | `docker run -t` |
 
-### Miscellaneous
-
-#### Modified
+### Modified
 | Command | Description |
 |---|---|
 | `curl` | Show progress by default |
@@ -164,7 +172,7 @@ update-zsh
 | `objdump` | Intel format with syntax color |
 | `rsync` | `rsync -ah --info=progress2` |
 
-#### Finding & Listing
+### Finding & Listing
 | Command | Description |
 |---|---|
 | `iagrep <args...>` | Insensitive AND grep |
@@ -176,14 +184,14 @@ update-zsh
 | `[i][w]lookup` | Search a text within all files including subfolders of the current directory. Prepend `i` for insensitive, `w` for word match (faster) |
 | `[a\|m]search <text>` | Search a text within manual and/or available packages |
 
-#### Displaying
+### Displaying
 | Command | Description |
 |---|---|
 | `cah` | Print file content highlighted according to format |
 | `logan` | Analyze log file |
 | `original` | Get alias definition |
 
-#### Managing
+### Managing
 | Command | Description |
 |---|---|
 | `adbpush` | Push file to Emulator's picture (Android Studio) |
@@ -191,7 +199,7 @@ update-zsh
 | `resize <height>x<width> <in> <out>` | Resize image |
 | `schown <path>` | Change user and group ownerschip to current user |
 
-#### Hash
+### Hash
 | Command | Description |
 |---|---|
 | `blake2b512sum` | [BLAKE2b-512](https://www.blake2.net/) |
@@ -201,7 +209,7 @@ update-zsh
 | `shake256sum` | [SHAKE-256](https://nvlpubs.nist.gov/nistpubs/FIPS/NIST.FIPS.202.pdf) |
 | `ssh-fingerprints [<signature>] [<hash>]` | Show SSH fingerprints |
 
-#### Security
+### Security
 | Command | Description | Note |
 |---|---|---|
 | `expand-url <url>` | Expand a shorten URL | Do NOT perform the redirect ✅ |
@@ -209,7 +217,7 @@ update-zsh
 | `vpn-exception { add \| del \| reset \| get } { <IPv4> \| <domain> }` | Manage VPN exceptions | If a domain is specified, it's resolved to add an exception toward its IPs. Actually manage routes. See `ip route` for details |
 | `watermark <image\|directory>` | Watermark an image, or all images in a directory (including sub-directories) | |
 
-#### Help
+### Help
 | Command | Description |
 |---|---|
 | `gitc` *or* `git-convention` | Display help about git convention |

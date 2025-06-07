@@ -30,7 +30,16 @@ export_terminal() {
 	if [ $term = false ]; then
 		cp -v ~/.zshrc .
 		cp -v /etc/vim/vimrc .
-		dconf dump /org/gnome/terminal/legacy/profiles:/ >gnome-terminal-profiles.dconf
+		if [ -d "/org/gnome" ]; then
+			echo "GNOME detected"
+			dconf dump /org/gnome/terminal/legacy/profiles:/ > gnome-terminal-profiles.dconf
+		elif [ -d "$HOME/.local/share/konsole/" ]; then
+			echo "KDE detected"
+			pack "$HOME/.local/share/konsole/" kde-term
+			cp -v ~/.config/konsolerc .
+		else
+			echo "Unsupported Desktop environment" >&2
+		fi
 		term=true
 	fi
 }

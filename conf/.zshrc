@@ -287,7 +287,7 @@ alias gch='git checkout'
 alias gchours='git checkout --ours'
 alias gchtheirs='git checkout --theirs'
 alias gcl='git clone'
-gcll() { git clone "$1" "${2:=${1##*/}}" && cd "${2:=${1##*/}}"; }
+gcll() { local dname="${1##*/}"; dname="${dname%.git}";  git clone "$1" "${2:=$dname}" && cd "${2:=$dname}"; }
 alias ga='git add'
 alias gd='git diff'
 alias gdiff='git diff'
@@ -331,8 +331,17 @@ alias lb='ls /bin /usr/bin /usr/local/bin $HOME/.local/bin | sort | uniq | colum
 alias lc='echo $?'
 alias le='ls -A | grep .env | column'
 alias lss='sh -c '\''du -d${2:-99999} -ah $1 | sort -hr | less'\'' _'
-alias lookup='GREP_COLORS="ms=0:mc=0" sh -c '\''grep -rnw --exclude-dir=node_modules --exclude-dir=.git --exclude-dir=.build --exclude-dir=.next --exclude=package*.json --exclude=*.pdf --color=auto -E ".*$1.*" "${2:-.}"'\'' _'
-alias ilookup='sh -c '\''grep -rnw --exclude-dir=node_modules --exclude-dir=.git --exclude-dir=.build --exclude-dir=.next --exclude=package*.json --exclude=*.pdf --color=auto -iE ".*$1.*" "${2:-.}"'\'' _'
+
+lookup() {
+	local pattern="$1"
+	shift
+	GREP_COLORS="ms=0:mc=0" grep -rnw --exclude-dir=node_modules --exclude-dir=.git --exclude-dir=.build --exclude-dir=.next --exclude=package*.json --exclude=*.pdf --color=auto -E ".*$pattern.*" $@
+}
+ilookup() {
+	local pattern="$1"
+	shift
+	grep -rnw --exclude-dir=node_modules --exclude-dir=.git --exclude-dir=.build --exclude-dir=.next --exclude=package*.json --exclude=*.pdf --color=auto -iE ".*$pattern.*" $@
+}
 alias wlookup='grep -rnw --exclude-dir=node_modules --exclude-dir=.git --exclude-dir=.build --exclude-dir=.next --exclude=package*.json --exclude=*.pdf --color=auto -E'
 alias iwlookup='grep -rnw --exclude-dir=node_modules --exclude-dir=.git --exclude-dir=.build --exclude-dir=.next --exclude=package*.json --exclude=*.pdf --color=auto -iE'
 alias iwclookup='grep -rnw --exclude-dir=node_modules --exclude-dir=.git --exclude-dir=.build --exclude-dir=.next --exclude=package*.json --exclude=*.pdf --color=auto -iocE'
@@ -353,6 +362,12 @@ alias ipdflookup='pdfgrep -Rni'
 # }
 
 #  | s /\x1b[36m\2 &\x1b[35m\1\x1b[0m/;ta
+afind() { local name="$1"; shift; find $@ -name "$name"; }
+ifind() { local name="$1"; shift; find $@ -iname "$name"; }
+ffind() { local name="$1"; shift; find $@ -name "$name" -type f; }
+iffind() { local name="$1"; shift; find $@ -iname "$name" -type f; }
+dfind() { local name="$1"; shift; find $@ -name "$name" -type d; }
+idfind() { local name="$1"; shift; find $@ -iname "$name" -type d; }
 
 ## Displaying
 alias clr='clear'
@@ -905,4 +920,4 @@ export NVM_DIR="$HOME/.nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
 [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
 
-export ENHANCED_PATH='/home/night/Documents/project/EnhancedTerminal'
+export ENHANCED_PATH='/home/dream/Documents/project/Nebula'
