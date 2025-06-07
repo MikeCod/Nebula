@@ -205,9 +205,9 @@ update-zsh
 | Command | Description | Note |
 |---|---|---|
 | `expand-url <url>` | Expand a shorten URL | Do NOT perform the redirect ✅ |
-| `shred-folder [options] <folder>` | Shred folder | See `man shred` for more information |
-| `vpn-exception { add \| del \| reset \| get } { <IPv4> \| <domain> }` | Manage VPN exceptions | Actually manage routes. See `ip route` for details |
-| `watermark <file\|directory>` | Watermark an image, or all images in a directory (including sub-directories) | |
+| `shred-folder [options] <folder>` | Shred folder | Default iteration: 3. Remove: wipesync (sync each obfuscated byte to the device) See `man shred` for more information |
+| `vpn-exception { add \| del \| reset \| get } { <IPv4> \| <domain> }` | Manage VPN exceptions | If a domain is specified, it's resolved to add an exception toward its IPs. Actually manage routes. See `ip route` for details |
+| `watermark <image\|directory>` | Watermark an image, or all images in a directory (including sub-directories) | |
 
 #### Help
 | Command | Description |

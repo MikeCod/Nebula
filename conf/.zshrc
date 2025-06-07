@@ -362,6 +362,7 @@ alias logan='sh -c '\''cat "${1:-.}" | cut "-d " -f1,4,7 | egrep -v "/socket.io|
 alias original='alias | grep'
 
 ## Managing
+alias emulator-wipe-data='sh -c '\''emulator -avd "$1" -wipe-data'\'' _'
 alias adbpush='sh -c '\''adb push $1 ${2:-/sdcard/Pictures/}'\'' _'
 alias layout='setxkbmap -print | grep keycodes | sed -E "s/.+\((.+)\).+/\1/mg"'
 alias schown='sudo chown -R $USER:$USER'
@@ -897,7 +898,7 @@ repair() {
 }
 
 export ANDROID_HOME=$HOME/Android/Sdk
-export PATH=$PATH:/snap/bin:$ANDROID_HOME/emulator:$ANDROID_HOME/platform-tools:$HOME/.maestro/bin
+export PATH=$PATH:/snap/bin:$ANDROID_HOME/emulator:$ANDROID_HOME/platform-tools:$HOME/.maestro/bin:$(go env GOPATH)/bin
 export DOCKER_HOST=unix:///run/user/1000/docker.sock
 
 export NVM_DIR="$HOME/.nvm"
