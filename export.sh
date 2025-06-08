@@ -30,7 +30,7 @@ export_terminal() {
 	if [ $term = false ]; then
 		cp -v ~/.zshrc .
 		cp -v /etc/vim/vimrc .
-		if [ -d "/org/gnome" ]; then
+		if type "dconf" &> /dev/null; then
 			echo "GNOME detected"
 			dconf dump /org/gnome/terminal/legacy/profiles:/ > gnome-terminal-profiles.dconf
 		elif [ -d "$HOME/.local/share/konsole/" ]; then
