@@ -900,7 +900,11 @@ repair() {
 }
 
 export ANDROID_HOME=$HOME/Android/Sdk
-export PATH=$PATH:/snap/bin:$ANDROID_HOME/emulator:$ANDROID_HOME/platform-tools:$HOME/.maestro/bin:$(go env GOPATH)/bin
+export PATH=$PATH:/snap/bin:$ANDROID_HOME/emulator:$ANDROID_HOME/platform-tools:$HOME/.maestro/bin
+if type go &> /dev/null; then
+	export PATH=$PATH:$(go env GOPATH)/bin
+fi
+
 export DOCKER_HOST=unix:///run/user/1000/docker.sock
 
 export NVM_DIR="$HOME/.nvm"
