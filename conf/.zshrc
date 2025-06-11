@@ -385,6 +385,7 @@ alias gschanges='sh -c '\''git diff --name-only HEAD ${1:-HEAD^} | egrep "^(\w*(
 alias ip-local='ip -4 -o -c=never a | egrep "wlan|eth" | cut "-d " -f7 | cut "-d/" -f1'
 alias ip-iface='ip -4 -o -c=never a | egrep "wlan|eth" | cut "-d " -f2'
 alias expand-url='sh -c '\''curl -i $@ -s | grep -i location | cut "-d " -f2-'\'' _'
+alias cd..='cd ..'
 
 ## FFMpeg
 alias ffmpeg-cut='sh -c '\''ffmpeg -ss "$3" -t "$4" -i "$2" -vcodec copy -acodec copy "$1"'\'' _'
