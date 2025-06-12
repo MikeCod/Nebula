@@ -905,7 +905,7 @@ if type go &> /dev/null; then
 	export PATH=$PATH:$(go env GOPATH)/bin
 fi
 
-export DOCKER_HOST=unix:///run/user/1000/docker.sock
+export DOCKER_HOST=unix:///run/user/$(id -u)/docker.sock
 
 export NVM_DIR="$HOME/.nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
