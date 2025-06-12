@@ -287,7 +287,23 @@ alias gch='git checkout'
 alias gchours='git checkout --ours'
 alias gchtheirs='git checkout --theirs'
 alias gcl='git clone'
-gcll() { projname="$2"; if [ -z "$projname" ]; then projname="${1##*/}"; projname="${projname%.git}"; fi; git clone "$1" "$projname" && cd "$projname"; }
+gcll() {
+	projname="${@: -1}"
+	projurl="${@: -2}"
+	arr=("${@[@]}")
+	unset 'arr[${#arr[0]}-1]'
+	if [[ "$projurl" != "http*" ]]; then
+		projurl="$projname"
+		projname="${projurl##*/}"
+		projname="${projname%.git}"
+	else
+		unset 'arr[${#arr[0]}-1]'
+	fi
+	echo "$projurl" "$projname"
+	# echo clone $arr "$projurl" "$projname"
+	git clone $arr "$projurl" "$projname"
+	cd "$projname"
+}
 alias ga='git add'
 alias gd='git diff'
 alias gdiff='git diff'
